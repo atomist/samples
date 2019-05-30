@@ -56,7 +56,7 @@ const SelectColorCommand: CommandHandlerRegistration = {
  * Command handler that receives the color parameter from the menu
  */
 const RespondWithColorCommand: CommandHandlerRegistration<{ color: string }> = {
-    name: "CommandTriggeredFromMenu",
+    name: "RespondWithColorCommand",
     parameters: {
         color: { required: true },
     },
