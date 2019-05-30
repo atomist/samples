@@ -24,10 +24,13 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "dependencies": {
-    "@atomist/automation-client": "^1.5.1",
-    "@atomist/sdm": "^1.5.0",
-    "@atomist/sdm-core": "^1.5.0",
-    "@atomist/slack-messages": "^1.1.0"
+    "@atomist/automation-client": "1.5.3-async-configuration-loading.20190530215656",
+    "@atomist/sdm": "1.5.1-master.20190530205831",
+    "@atomist/sdm-core": "1.5.1-master.20190530205517",
+    "@atomist/slack-messages": "^1.1.0",
+    "@types/inquirer": "^6.0.3",
+    "fs-extra": "^8.0.1",
+    "inquirer": "^6.3.1"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",

@@ -33,6 +33,12 @@ $ atomist start --repository-url=https://github.com/atomist/samples.git --index=
 Running this command requires you replace the placeholder `<SAMPLE_FILE>`
 with a name of one of the sample SDM programs in the root of this repository.
 
+Alternatively you can also clone this repository and then run the samples with:
+
+```
+$ atomist start
+```
+
 Here is a list of possible samples you can run:
 
 |Name|Description|

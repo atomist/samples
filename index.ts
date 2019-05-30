@@ -14,28 +14,27 @@
  * limitations under the License.
  */
 
-import {
-    Configuration,
-    logger,
-} from "@atomist/automation-client";
+import { Configuration } from "@atomist/automation-client";
+import * as fs from "fs-extra";
+import * as inquirer from "inquirer";
+import * as path from "path";
 
-/**
- * The starting point for building an SDM is here!
- */
-export const configuration: Configuration = {
-    postProcessors: [
-        async cfg => {
-            logger.info(`
+async function loadSdm(): Promise<Configuration> {
 
-Welcome to the Atomist SDM samples repository!
+    const samples = (await fs.readdir(__dirname))
+        .filter(f => f.endsWith(".ts") && !f.endsWith("index.ts") && !f.endsWith(".d.ts"));
 
-To start one of the sample SDMs in this repository, type:
-
-    $ atomist start --repository-url=https://github.com/atomist/samples.git \
-        --index=<one of the TypeScript files in the root of the repository, e.g. '01-menu.ts'>
-`);
-            process.exit(0);
-            return cfg;
+    const questions: inquirer.Question[] = [
+        {
+            type: "list",
+            name: "sample",
+            message: "Please select a sample SDM from the following list",
+            choices: samples.map(s => ({ name: s, value: s })),
         },
-    ],
-};
+    ];
+
+    const answers = await inquirer.prompt(questions);
+    return require(path.join(__dirname, answers.sample.replace(".ts", ".js"))).configuration;
+}
+
+export const configuration = loadSdm();
