@@ -1,6 +1,7 @@
 # @atomist/samples
 
 [![npm version](https://img.shields.io/npm/v/@atomist/samples.svg)](https://www.npmjs.com/package/@atomist/samples)
+[![atomist sdm goals](https://badge.atomist.com/T29E48P34/atomist/samples/5f6a382b-a284-4918-9635-349c70d2a3b4)](https://app.atomist.com/workspace/T29E48P34)
 
 This repository is the home of very small sample Atomist Software
 Delivery Machines. Each TypeScript file in the root of this 
