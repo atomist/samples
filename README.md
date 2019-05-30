@@ -20,7 +20,7 @@ an SDM.
 ## Running the Samples
 
 Before you can run any of the samples from this repository you need
-to install the Atomist CLI. Plese follow [Developer Quick Start][atomist-quick] 
+to install the Atomist CLI. Please follow [Developer Quick Start][atomist-quick] 
 to set up your environment.
 
 Once the Atomist CLI is installed, you run any of the examples by simply 
