@@ -21,16 +21,9 @@ import {
 import { configure } from "@atomist/sdm-core";
 import { SlackMessage } from "@atomist/slack-messages";
 
-const CommandTriggeredFromMenu: CommandHandlerRegistration<{ color: string }> = {
-    name: "CommandTriggeredFromMenu",
-    parameters: {
-        color: { required: true },
-    },
-    listener: async ci => {
-        await ci.addressChannels(`You selected '${ci.parameters.color}'`);
-    },
-};
-
+/**
+ * Command handler that sends a message to chat containing a simple selection menu
+ */
 const MenuCreatingCommand: CommandHandlerRegistration = {
     name: "SelectColor",
     intent: "start",
@@ -57,11 +50,27 @@ const MenuCreatingCommand: CommandHandlerRegistration = {
 
         await ci.addressChannels(msg);
     },
-}
+};
 
+/**
+ * Command handler that receives the color parameter from the menu
+ */
+const CommandTriggeredFromMenu: CommandHandlerRegistration<{ color: string }> = {
+    name: "CommandTriggeredFromMenu",
+    parameters: {
+        color: { required: true },
+    },
+    listener: async ci => {
+        await ci.addressChannels(`You selected '${ci.parameters.color}'`);
+    },
+};
+
+/**
+ * Install the two command handlers into the SDM
+ */
 export const configuration = configure(async sdm => {
 
-    sdm.addCommand(CommandTriggeredFromMenu);
     sdm.addCommand(MenuCreatingCommand);
-    
+    sdm.addCommand(CommandTriggeredFromMenu);
+
 });
