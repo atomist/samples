@@ -24,7 +24,7 @@ import { SlackMessage } from "@atomist/slack-messages";
 /**
  * Command handler that sends a message to chat containing a simple selection menu
  */
-const MenuCreatingCommand: CommandHandlerRegistration = {
+const SelectColorCommand: CommandHandlerRegistration = {
     name: "SelectColor",
     intent: "start",
     listener: async ci => {
@@ -42,7 +42,7 @@ const MenuCreatingCommand: CommandHandlerRegistration = {
                                 { text: "Yellow", value: "yellow" },
                             ],
                         },
-                        CommandTriggeredFromMenu,
+                        RespondWithColorCommand,
                         "color"),
                 ],
             }],
@@ -55,7 +55,7 @@ const MenuCreatingCommand: CommandHandlerRegistration = {
 /**
  * Command handler that receives the color parameter from the menu
  */
-const CommandTriggeredFromMenu: CommandHandlerRegistration<{ color: string }> = {
+const RespondWithColorCommand: CommandHandlerRegistration<{ color: string }> = {
     name: "CommandTriggeredFromMenu",
     parameters: {
         color: { required: true },
@@ -70,7 +70,7 @@ const CommandTriggeredFromMenu: CommandHandlerRegistration<{ color: string }> = 
  */
 export const configuration = configure(async sdm => {
 
-    sdm.addCommand(MenuCreatingCommand);
-    sdm.addCommand(CommandTriggeredFromMenu);
+    sdm.addCommand(SelectColorCommand);
+    sdm.addCommand(RespondWithColorCommand);
 
 });
