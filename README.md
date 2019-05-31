@@ -21,9 +21,12 @@ an SDM.
 
 Here is a list of all the samples in this repository:
 
-<!---atomist:samples=start--->
-tba
-<!---atomist:samples=end--->
+<!---atomist:sample=start--->
+|Name|Description|Tags|
+|----|-----------|----|
+|[`lib/command/menu.ts`](lib/command/menu.ts)|Demonstrates using menus in chat|command, parameters|
+|[`lib/command/promptFor.ts`](lib/command/promptFor.ts)|Demonstrates using promptFor to acquire parameters|command, parameters|
+<!---atomist:sample=end--->
 
 Refer to the following section on how to run any of those samples 
 from your own machine.
