@@ -43,7 +43,8 @@ Here is a list of possible samples you can run:
 
 |Name|Description|
 |----|-----------|
-|01-menu.ts|Sample to demonstrate the usage of Command handlers to send Slack messages with menus|
+|01-menu.ts|Demonstrates the usage of Command handlers to send Slack messages with menus|
+|02-promptFor.ts|Demonstrates the usage of `promptFor` to ask for more parameters|
 
 [atomist-quick]: https://docs.atomist.com/quick-start/ (Atomist - Developer Quick Start)
 
