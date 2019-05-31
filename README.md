@@ -22,10 +22,7 @@ an SDM.
 Here is a list of all the samples in this repository:
 
 <!---atomist:samples=start--->
-|Name|Description|
-|----|-----------|
-|[`lib/command/menu.ts`](lib/command/menu.ts)|Demonstrates the usage of Command handlers to send Slack messages with menus|
-|[`lib/command/promptFor.ts`](lib/command/promptFor.ts)|Demonstrates the usage of `promptFor` to ask for more parameters|
+tba
 <!---atomist:samples=end--->
 
 Refer to the following section on how to run any of those samples 
