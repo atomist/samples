@@ -20,6 +20,7 @@ import {
     logger,
     PlainLogging,
 } from "@atomist/automation-client";
+import chalk from "chalk";
 import * as fs from "fs-extra";
 import * as glob from "glob";
 import * as inquirer from "inquirer";
@@ -54,7 +55,7 @@ async function loadSdm(): Promise<Configuration> {
 
     configureLogging(PlainLogging);
     logger.info(`
-Welcome to the Atomist SDM samples repository!
+${chalk.yellow.bold("Welcome to the Atomist SDM samples repository")}
 
 Please start an SDM sample by selecting one of the files in the menu below.
 `);
