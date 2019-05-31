@@ -14,25 +14,50 @@
  * limitations under the License.
  */
 
-import { Configuration } from "@atomist/automation-client";
+import {
+    Configuration,
+    configureLogging,
+    logger,
+    PlainLogging,
+} from "@atomist/automation-client";
 import * as fs from "fs-extra";
+import * as glob from "glob";
 import * as inquirer from "inquirer";
 import * as path from "path";
 
+const DescriptionRegexp = new RegExp(/\* @description (.*)/, "g");
+
 async function loadSdm(): Promise<Configuration> {
 
-    const samples = (await fs.readdir(__dirname))
-        .filter(f => f.endsWith(".ts") && !f.endsWith("index.ts") && !f.endsWith(".d.ts"));
+    const samples = glob.sync("**/*.ts", { nodir: true, ignore: ["node_modules/**", "test/**", "index.ts"] }).map(f => {
+        const content = fs.readFileSync(f).toString();
+        DescriptionRegexp.lastIndex = 0;
+        const match = DescriptionRegexp.exec(content);
+        if (!!match) {
+            return {
+                name: f,
+                description: match[1],
+            };
+        } else {
+            return undefined;
+        }
+    }).filter(s => !!s);
 
     const questions: inquirer.Question[] = [
         {
             type: "list",
             name: "sample",
-            message: "Please select a sample SDM from the following list",
-            choices: samples.map(s => ({ name: s, value: s })),
+            message: "Samples",
+            choices: samples.map(s => ({ name: `${s.name} - ${s.description}`, value: s.name })),
         },
     ];
 
+    configureLogging(PlainLogging);
+    logger.info(`
+Welcome to the Atomist SDM samples repository! 
+
+Please start an SDM sample by selecting one of the files in the menu below.
+`);
     const answers = await inquirer.prompt(questions);
     return require(path.join(__dirname, answers.sample.replace(".ts", ".js"))).configuration;
 }

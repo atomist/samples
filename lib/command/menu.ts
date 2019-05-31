@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+/**
+ * @description Demonstrates using menus in chat
+ * @tag command,parameters
+ */
+
 import {
     actionableMenu,
     CommandHandlerRegistration,

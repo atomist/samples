@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+/**
+ * @description Demonstrates using promptFor to acquire parameters
+ * @tag command,parameters
+ */
+
 import { CommandHandlerRegistration } from "@atomist/sdm";
 import { configure } from "@atomist/sdm-core";
 
@@ -37,7 +42,7 @@ const SelectColorCommand: CommandHandlerRegistration = {
             },
         });
 
-        await ci.addressChannels(`You selected '${ci.parameters.color}'`);
+        await ci.addressChannels(`You selected '${params.color}'`);
 
     },
 };
