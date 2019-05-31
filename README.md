@@ -16,37 +16,57 @@ an SDM.
 
 [atomist-doc]: https://docs.atomist.com/ (Atomist Documentation)
 
+## Samples
 
-## Running the Samples
+Here is a list of all the samples in this repository:
+
+<!---atomist:samples=start--->
+|Name|Description|
+|----|-----------|
+|[`lib/command/menu.ts`](lib/command/menu.ts)|Demonstrates the usage of Command handlers to send Slack messages with menus|
+|[`lib/command/promptFor.ts`](lib/command/promptFor.ts)|Demonstrates the usage of `promptFor` to ask for more parameters|
+<!---atomist:samples=end--->
+
+Refer to the following section on how to run any of those samples 
+from your own machine.
+
+## Running
+
+### Prerequisites 
 
 Before you can run any of the samples from this repository you need
 to install the Atomist CLI. Please follow [Developer Quick Start][atomist-quick] 
 to set up your environment.
 
+[atomist-quick]: https://docs.atomist.com/quick-start/ (Atomist - Developer Quick Start)
+
+### Starting a Sample
+
 Once the Atomist CLI is installed, you run any of the examples by simply 
 typing the following into your terminal:
 
 ```
-$ atomist start --repository-url=https://github.com/atomist/samples.git --index=<SAMPLE_FILE>
+$ atomist start --repository-url=https://github.com/atomist/samples.git
 ```
 
-Running this command requires you replace the placeholder `<SAMPLE_FILE>`
+This command will start a selection menu from which you can select one 
+of the available samples to start.
+
+Alternatively you can also start a sample directly by running:
+
+```
+$ atomist start --repository-url=https://github.com/atomist/samples.git --index=<SAMPLE>
+```
+
+Running this command requires you replace the placeholder `<SAMPLE>`
 with a name of one of the sample SDM programs in the root of this repository.
 
-Alternatively you can also clone this repository and then run the samples with:
+If you feel like changing some of the samples, you can also clone or fork
+this repository and then run the samples with:
 
 ```
 $ atomist start
 ```
-
-Here is a list of possible samples you can run:
-
-|Name|Description|
-|----|-----------|
-|[`lib/command/menu.ts`](lib/command/menu.ts)|Demonstrates the usage of Command handlers to send Slack messages with menus|
-|[`lib/command/promptFor.ts`](lib/command/promptFor.ts)|Demonstrates the usage of `promptFor` to ask for more parameters|
-
-[atomist-quick]: https://docs.atomist.com/quick-start/ (Atomist - Developer Quick Start)
 
 ## Contributing
 
