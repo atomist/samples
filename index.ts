@@ -54,7 +54,7 @@ async function loadSdm(): Promise<Configuration> {
 
     configureLogging(PlainLogging);
     logger.info(`
-Welcome to the Atomist SDM samples repository! 
+Welcome to the Atomist SDM samples repository!
 
 Please start an SDM sample by selecting one of the files in the menu below.
 `);
