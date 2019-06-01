@@ -26,7 +26,7 @@ Here is a list of all the samples in this repository:
 |----|-----------|----|
 |[`lib/command/menu.ts`](lib/command/menu.ts)|Demonstrates using menus in chat|command, parameters|
 |[`lib/command/parameters.ts`](lib/command/parameters.ts)|Demonstrates a command handler with parameters|command, parameters|
-|[`lib/command/preferences.ts`](lib/command/preferences.ts)|Demonstrates a command handler that sets and deletes SDM preferences|command, parameters|
+|[`lib/command/preferences.ts`](lib/command/preferences.ts)|Demonstrates a command handler that sets and deletes SDM preferences|command, preferences|
 |[`lib/command/promptFor.ts`](lib/command/promptFor.ts)|Demonstrates using promptFor to acquire parameters|command, parameters|
 <!---atomist:sample=end--->
 
