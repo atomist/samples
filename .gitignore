@@ -16,3 +16,4 @@ node_modules/
 /doc/
 /log/
 git-info.json
+/lib/typings/
