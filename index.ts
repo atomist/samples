@@ -15,11 +15,14 @@
  */
 
 import {
+    AutomationClient,
+    AutomationEventListenerSupport,
     Configuration,
     configureLogging,
     logger,
     PlainLogging,
 } from "@atomist/automation-client";
+import * as boxen from "boxen";
 import chalk from "chalk";
 import * as fs from "fs-extra";
 import * as glob from "glob";
@@ -27,17 +30,27 @@ import * as inquirer from "inquirer";
 import * as path from "path";
 
 const DescriptionRegexp = new RegExp(/\* @description (.*)/, "g");
+const InstructionsRegexp = new RegExp(/\* @instructions (.*)/, "g");
 
 async function loadSdm(): Promise<Configuration> {
 
     const samples = glob.sync("**/*.ts", { nodir: true, ignore: ["node_modules/**", "test/**", "index.ts"] }).map(f => {
         const content = fs.readFileSync(f).toString();
         DescriptionRegexp.lastIndex = 0;
-        const match = DescriptionRegexp.exec(content);
-        if (!!match) {
+        InstructionsRegexp.lastIndex = 0;
+        const descriptionMatch = DescriptionRegexp.exec(content);
+
+        let instructions: string;
+        const instructionsMatch = InstructionsRegexp.exec(content);
+        if (!!instructionsMatch) {
+            instructions = instructionsMatch[1];
+        }
+
+        if (!!descriptionMatch) {
             return {
                 name: f,
-                description: match[1],
+                description: descriptionMatch[1],
+                instructions,
             };
         } else {
             return undefined;
@@ -49,18 +62,35 @@ async function loadSdm(): Promise<Configuration> {
             type: "list",
             name: "sample",
             message: "Samples",
-            choices: samples.map(s => ({ name: `${s.name} - ${s.description}`, value: s.name })),
+            choices: samples.map(s => ({ name: `${s.name} - ${s.description}`, value: s })),
         },
     ];
 
     configureLogging(PlainLogging);
-    logger.info(`
-${chalk.yellow.bold("Welcome to the Atomist SDM samples repository")}
+    logger.info(boxen(`${chalk.yellow.bold("Welcome to the Atomist SDM samples repository")}
 
-Please start an SDM sample by selecting one of the files in the menu below.
-`);
+Please start an SDM sample by selecting one of the files in the menu below.`, { padding: 1 }));
     const answers = await inquirer.prompt(questions);
-    return require(path.join(__dirname, answers.sample.replace(".ts", ".js"))).configuration;
+    const cfg = require(path.join(__dirname, answers.sample.name.replace(".ts", ".js"))).configuration;
+    if (!!answers.sample.instructions) {
+        cfg.listeners = [
+            ...(cfg.listeners || []),
+            new InstructionsPrintingAutomationEventListener(answers.sample.instructions),
+        ];
+    }
+    return cfg;
 }
 
 export const configuration = loadSdm();
+
+class InstructionsPrintingAutomationEventListener extends AutomationEventListenerSupport {
+
+    constructor(private readonly instructions: string) {
+        super();
+    }
+
+    public async startupSuccessful(client: AutomationClient): Promise<void> {
+        const wrap = require("wordwrap")(75);
+        logger.info(`\n${boxen(chalk.yellow(wrap(this.instructions)), { padding: 1 })}`);
+    }
+}

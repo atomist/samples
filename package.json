@@ -29,12 +29,16 @@
     "@atomist/sdm": "1.5.1-master.20190530205831",
     "@atomist/sdm-core": "1.5.1-master.20190530205517",
     "@atomist/slack-messages": "^1.1.0",
+    "@types/boxen": "^3.0.1",
     "@types/chalk": "^2.2.0",
     "@types/inquirer": "^6.0.3",
+    "@types/wordwrap": "^1.0.0",
+    "boxen": "^4.0.0",
     "chalk": "^2.4.2",
     "fs-extra": "^8.0.1",
     "glob": "^7.1.4",
-    "inquirer": "^6.3.1"
+    "inquirer": "^6.3.1",
+    "wordwrap": "^1.0.0"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
