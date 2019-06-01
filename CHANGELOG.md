@@ -14,3 +14,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Add sample showing promptFor. [1052f55](https://github.com/atomist/samples/commit/1052f5577855b87c9e64793a58e579ae6eeaecdc)
 -   Print instructions after SDM start. [fda4ec4](https://github.com/atomist/samples/commit/fda4ec4bb89d918e9872660ad189053ab81f06d7)
 -   Add sample to demonstrate SDM preferences. [8f920e2](https://github.com/atomist/samples/commit/8f920e2b025cc2ce32e35b4d6fa16ccc0bd8022d)
+-   Add sample code transform and autofix. [2447f6a](https://github.com/atomist/samples/commit/2447f6aa5148289e04ae0a62bda815a6802a7a9b)
