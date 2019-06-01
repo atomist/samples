@@ -75,7 +75,7 @@ Please start an SDM sample by selecting one of the files in the menu below.`, { 
     if (!!answers.sample.instructions) {
         cfg.listeners = [
             ...(cfg.listeners || []),
-            new InstructionsPrintingAutomationEventListener(answers.sample.instructions),
+            new InstructionsPrintingAutomationEventListener(answers.sample.name, answers.sample.instructions),
         ];
     }
     return cfg;
@@ -85,12 +85,13 @@ export const configuration = loadSdm();
 
 class InstructionsPrintingAutomationEventListener extends AutomationEventListenerSupport {
 
-    constructor(private readonly instructions: string) {
+    constructor(private readonly name: string, private readonly instructions: string) {
         super();
     }
 
     public async startupSuccessful(client: AutomationClient): Promise<void> {
         const wrap = require("wordwrap")(75);
-        logger.info(`\n${boxen(chalk.yellow(wrap(this.instructions)), { padding: 1 })}`);
+        const url = `\n\nView source code for this SDM at:\n   https://github.com/atomist/samples/blob/master/${this.name}`;
+        logger.info(`\n${boxen(chalk.yellow(wrap(this.instructions)) + url, { padding: 1 })}`);
     }
 }
