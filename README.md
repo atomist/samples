@@ -24,12 +24,12 @@ Here is a list of all the samples in this repository:
 <!---atomist:sample=start--->
 |Name|Description|Tags|
 |----|-----------|----|
+|[`lib/goal/addLicenseAutofix.ts`](lib/goal/addLicenseAutofix.ts)|Shows how to use the Autofix goal|autofix, goal|
+|[`lib/goal/firstGoal.ts`](lib/goal/firstGoal.ts)|Demonstrates how to create a first custom goal|goal|
 |[`lib/command/menu.ts`](lib/command/menu.ts)|Demonstrates using menus in chat|command, parameters|
 |[`lib/command/parameters.ts`](lib/command/parameters.ts)|Demonstrates a command handler with parameters|command, parameters|
 |[`lib/command/preferences.ts`](lib/command/preferences.ts)|Demonstrates a command handler that sets and deletes SDM preferences|command, preferences|
 |[`lib/command/promptFor.ts`](lib/command/promptFor.ts)|Demonstrates using promptFor to acquire parameters|command, parameters|
-|[`lib/goal/addLicenseAutofix.ts`](lib/goal/addLicenseAutofix.ts)|Shows how to use the Autofix goal|autofix, goal|
-|[`lib/goal/firstGoal.ts`](lib/goal/firstGoal.ts)|Demonstrates how to create a first custom goal|goal|
 |[`lib/transform/addLicense.ts`](lib/transform/addLicense.ts)|Shows a code transform that adds a license ile into the repository|command, preferences|
 <!---atomist:sample=end--->
 
