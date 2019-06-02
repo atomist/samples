@@ -18,7 +18,9 @@
  * Atomist SDM Sample
  * @description Shows how to use the Autofix goal
  * @tag goal,autofix
- * @instructions Now that the SDM is up and running, make a commit to a repository that has an Atomist webhook configured. You can observe the goal from chat or https://app.atomist.com.
+ * @instructions <p>Now that the SDM is up and running, make a commit to a repository
+ *               that has an Atomist webhook configured. You can observe the goal
+ *               from chat or https://app.atomist.com.</p>
  */
 
 import { PullRequest } from "@atomist/automation-client/lib/operations/edit/editModes";

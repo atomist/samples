@@ -18,7 +18,8 @@
  * Atomist SDM Sample
  * @description Demonstrates a command handler with parameters
  * @tag command,parameters
- * @instructions Now that the SDM is up and running, start the sample command handler from chat or web-app by typing "@atomist hello".
+ * @instructions <p>Now that the SDM is up and running, start the sample command handler
+ *               from chat or web-app by typing "@atomist hello".</p>
  */
 
 import { MappedParameters } from "@atomist/automation-client";

@@ -27,14 +27,15 @@ import chalk from "chalk";
 import * as fs from "fs-extra";
 import * as glob from "glob";
 import * as inquirer from "inquirer";
+import * as _ from "lodash";
 import * as path from "path";
 
 const DescriptionRegexp = new RegExp(/\* @description (.*)/, "g");
-const InstructionsRegexp = new RegExp(/\* @instructions (.*)/, "g");
+const InstructionsRegexp = new RegExp(/\* @instructions <p>([\s\S]*)<\/p>/, "gm");
 
 async function loadSdm(): Promise<Configuration> {
 
-    const samples = glob.sync("**/*.ts", { nodir: true, ignore: ["node_modules/**", "test/**", "index.ts"] }).map(f => {
+    const samples = _.sortBy(glob.sync("**/*.ts", { nodir: true, ignore: ["node_modules/**", "test/**", "index.ts"] }).map(f => {
         const content = fs.readFileSync(f).toString();
         DescriptionRegexp.lastIndex = 0;
         InstructionsRegexp.lastIndex = 0;
@@ -55,7 +56,7 @@ async function loadSdm(): Promise<Configuration> {
         } else {
             return undefined;
         }
-    }).filter(s => !!s);
+    }).filter(s => !!s), "name");
 
     const questions: inquirer.Question[] = [
         {
@@ -90,8 +91,9 @@ class InstructionsPrintingAutomationEventListener extends AutomationEventListene
     }
 
     public async startupSuccessful(client: AutomationClient): Promise<void> {
-        const wrap = require("wordwrap")(75);
+        const text = this.instructions.replace(/\*/g, "").replace(/ +(?= )/g, "");
+
         const url = `\n\nView source code for this SDM at:\n   https://github.com/atomist/samples/blob/master/${this.name}`;
-        logger.info(`\n${boxen(chalk.yellow(wrap(this.instructions)) + url, { padding: 1 })}`);
+        logger.info(`\n${boxen(chalk.yellow(text) + url, { padding: 1 })}`);
     }
 }

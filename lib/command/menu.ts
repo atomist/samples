@@ -18,7 +18,8 @@
  * Atomist SDM Sample
  * @description Demonstrates using menus in chat
  * @tag command,parameters
- * @instructions Now that the SDM is up and running, start the sample command handler from chat or web-app by typing "@atomist start".
+ * @instructions <p>Now that the SDM is up and running, start the sample command handler
+ *               from chat or web-app by typing "@atomist start".</p>
  */
 
 import {

@@ -18,7 +18,9 @@
  * Atomist SDM Sample
  * @description Demonstrates how to create a first custom goal
  * @tag goal
- * @instructions Now that the SDM is up and running, make a commit to a repository that has an Atomist webhook configured. You can observe the goal from chat or https://app.atomist.com.
+ * @instructions <p>Now that the SDM is up and running, make a commit to a repository
+ *               that has an Atomist webhook configured. You can observe the goal
+ *               from chat or https://app.atomist.com.</p>
  */
 
 import {

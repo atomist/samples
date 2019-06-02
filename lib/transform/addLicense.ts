@@ -18,7 +18,8 @@
  * Atomist SDM Sample
  * @description Shows a code transform that adds a license ile into the repository
  * @tag command,preferences
- * @instructions Now that the SDM is up and running, start the sample code transform from chat or web-app by typing "@atomist add license file".
+ * @instructions <p>Now that the SDM is up and running, start the sample code transform
+ *               from chat or web-app by typing "@atomist add license file".</p>
  * @test transform/addLicense.test.ts
  */
 

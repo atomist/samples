@@ -18,7 +18,8 @@
  * Atomist SDM Sample
  * @description Demonstrates a command handler that sets and deletes SDM preferences
  * @tag command,preferences
- * @instructions Now that the SDM is up and running, start the sample command handler from chat or web-app by typing "@atomist store fact".
+ * @instructions <p>Now that the SDM is up and running, start the sample command handler
+ *               from chat or web-app by typing "@atomist store fact".</p>
  */
 
 import {
