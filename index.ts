@@ -82,7 +82,7 @@ Please start an SDM sample by selecting one of the files in the menu below.`, { 
     return cfg;
 }
 
-export const configuration = loadSdm();
+export const configuration = _loadSdm();
 
 class InstructionsPrintingAutomationEventListener extends AutomationEventListenerSupport {
 
