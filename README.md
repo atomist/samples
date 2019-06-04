@@ -30,6 +30,7 @@ Here is a list of all the samples in this repository:
 |[`lib/command/promptFor.ts`](lib/command/promptFor.ts)|Demonstrates using promptFor to acquire parameters|command, parameters|
 |[`lib/goal/addLicenseAutofix.ts`](lib/goal/addLicenseAutofix.ts)|Shows how to use the Autofix goal|autofix, goal|
 |[`lib/goal/firstGoal.ts`](lib/goal/firstGoal.ts)|Demonstrates how to create a first custom goal|goal|
+|[`lib/sdm/dotnetCore.ts`](lib/sdm/dotnetCore.ts)|SDM to create and build .NET Core projects|dotnet-core, generator, sdm|
 |[`lib/transform/addLicense.ts`](lib/transform/addLicense.ts)|Shows a code transform that adds a license ile into the repository|command, preferences|
 <!---atomist:sample=end--->
 
