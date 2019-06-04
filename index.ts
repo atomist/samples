@@ -72,13 +72,19 @@ async function loadSdm(): Promise<Configuration> {
 
 Please start an SDM sample by selecting one of the files in the menu below.`, { padding: 1 }));
     const answers = await inquirer.prompt(questions);
-    const cfg = require(path.join(__dirname, answers.sample.name.replace(".ts", ".js"))).configuration;
+    const sdm = answers.sample;
+    const cfg = require(path.join(__dirname, sdm.name.replace(".ts", ".js"))).configuration;
     if (!!answers.sample.instructions) {
         cfg.listeners = [
             ...(cfg.listeners || []),
-            new InstructionsPrintingAutomationEventListener(answers.sample.name, answers.sample.instructions),
+            new InstructionsPrintingAutomationEventListener(sdm.name, sdm.instructions),
         ];
     }
+
+    // Put the name of the sample into the registration name
+    const name = sdm.name.split("/").slice(1).join("/").replace(".ts", "");
+    cfg.name = `@atomist/samples-${name.toLowerCase()}`;
+
     return cfg;
 }
 
