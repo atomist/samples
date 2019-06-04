@@ -25,6 +25,7 @@ import * as path from "path";
  *               and JENKINS_PASSWORD.</p>
  */
 
+// atomist:code-snippet:start=jenkinsSdm
 /**
  * Main entry point into the SDM
  */
@@ -74,3 +75,4 @@ async function mavenPipeline(gi: GoalInvocation): Promise<string> {
     const hb = hbx.compile(template);
     return hb({ gi });
 }
+// atomist:code-snippet:end
