@@ -91,7 +91,8 @@ class InstructionsPrintingAutomationEventListener extends AutomationEventListene
     }
 
     public async startupSuccessful(client: AutomationClient): Promise<void> {
-        const text = this.instructions.replace(/\*/g, "").replace(/ +(?= )/g, "");
+        let text = this.instructions.replace(/\*/g, "").replace(/ +(?= )/g, "");
+        text = text.split("\n").map(t => t.trim()).join("\n");
 
         const url = `\n\nView source code for this SDM at:\n   https://github.com/atomist/samples/blob/master/${this.name}`;
         logger.info(`\n${boxen(chalk.yellow(text) + url, { padding: 1 })}`);

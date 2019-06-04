@@ -19,7 +19,8 @@
  * @description Demonstrates a command handler with parameters
  * @tag command,parameters
  * @instructions <p>Now that the SDM is up and running, start the sample command handler
- *               from chat or web-app by typing "@atomist hello".</p>
+ *               from chat or web-app by typing "@atomist hello" and make sure to invite
+ *               the @atomist bot to your #general channel.</p>
  */
 
 import { MappedParameters } from "@atomist/automation-client";
@@ -63,7 +64,8 @@ const GreetingCommand: CommandHandlerRegistration<GreetingParameters> = {
     listener: async ci => {
         await ci.context.messageClient.addressChannels(
             `Hello ${!!ci.parameters.firstName ?
-                `${ci.parameters.firstName} ${ci.parameters.name}` : ci.parameters.name} from ${user(ci.parameters.screenName)}`, "general");
+                `${ci.parameters.firstName} ${ci.parameters.name}` : ci.parameters.name} from ${user(ci.parameters.screenName)}`,
+            "general");
     },
 };
 
