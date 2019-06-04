@@ -32,6 +32,7 @@
     "@atomist/sdm-pack-analysis-dotnet": "0.1.0-master.20190604193225",
     "@atomist/sdm-pack-build": "1.0.4-master.20190320190156",
     "@atomist/sdm-pack-docker": "2.0.0-master.20190521194715",
+    "@atomist/sdm-pack-jenkins": "0.1.0-master.20190604195525",
     "@atomist/slack-messages": "^1.1.0",
     "@types/boxen": "^3.0.1",
     "@types/chalk": "^2.2.0",
@@ -42,6 +43,7 @@
     "fs-extra": "^8.0.1",
     "git-url-parse": "^11.1.2",
     "glob": "^7.1.4",
+    "handlebars": "^4.1.2",
     "inquirer": "^6.3.1",
     "lodash": "^4.17.11"
   },

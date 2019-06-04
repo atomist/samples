@@ -1,0 +1,66 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.32">
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.29.4">
+            <projectUrl>https://github.com/{{gi.goalEvent.repo.owner}}/{{gi.goalEvent.repo.name}}/</projectUrl>
+            <displayName></displayName>
+        </com.coravy.hudson.plugins.github.GithubProjectProperty>
+    </properties>
+    <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.68">
+        <scm class="hudson.plugins.git.GitSCM" plugin="git@3.10.0">
+            <configVersion>2</configVersion>
+            <userRemoteConfigs>
+                <hudson.plugins.git.UserRemoteConfig>
+                    <url>https://github.com/{{gi.goalEvent.repo.owner}}/{{gi.goalEvent.repo.name}}.git</url>
+                </hudson.plugins.git.UserRemoteConfig>
+            </userRemoteConfigs>
+            <branches>
+                <hudson.plugins.git.BranchSpec>
+                    <name>*/master</name>
+                </hudson.plugins.git.BranchSpec>
+            </branches>
+            <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+            <submoduleCfg class="list"/>
+            <extensions/>
+        </scm>
+        <script>pipeline {
+
+            agent {
+                docker {
+                    image &apos;maven:3.6.1-jdk-8-slim&apos;
+                    args &apos;-v /root/.m2:/root/.m2&apos;
+                }
+            }
+
+            stages {
+
+                stage(&apos;checkout&apos;) {
+                    steps {
+                        git url: &apos;https://github.com/{{gi.goalEvent.repo.owner}}/{{gi.goalEvent.repo.name}}.git&apos;
+                    }
+                }
+
+                stage(&apos;build&apos;) {
+                    steps {
+                        sh &apos;mvn -B -DskipTests clean package&apos;
+                    }
+                }
+
+                stage(&apos;test&apos;) {
+                    steps {
+                        sh &apos;mvn test&apos;
+                    }
+                    post {
+                        always {
+                            junit &apos;target/surefire-reports/*.xml&apos;
+                }
+            }
+        }
+    }
+}
+    </script>
+        <sandbox>true</sandbox>
+    </definition>
+    <disabled>false</disabled>
+</flow-definition>
