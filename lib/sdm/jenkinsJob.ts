@@ -41,7 +41,7 @@ import * as path from "path";
  *               and JENKINS_PASSWORD.</p>
  */
 
-// atomist:code-snippet:start=jenkinsSdm
+// atomist:code-snippet:start=sdm
 /**
  * Main entry point into the SDM
  */
