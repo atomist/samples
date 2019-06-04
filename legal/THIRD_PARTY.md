@@ -43,7 +43,7 @@ Apache License 2.0 - [http://www.apache.org/licenses/LICENSE-2.0](http://www.apa
 |------|---------|-----------|------------|
 |`@atomist/clj-editors`|`0.6.5`||[https://github.com/atomisthq/clj-editors](https://github.com/atomisthq/clj-editors)|
 |`@atomist/sdm-core`|`1.5.1-master.20190530205517`|Atomist|[https://github.com/atomist/sdm-core](https://github.com/atomist/sdm-core)|
-|`@atomist/sdm-pack-analysis-dotnet`|`0.1.0-master.20190604152213`|Atomist|[https://github.com/atomist/sdm-pack-analysis-dotnet](https://github.com/atomist/sdm-pack-analysis-dotnet)|
+|`@atomist/sdm-pack-analysis-dotnet`|`0.1.0-master.20190604193225`|Atomist|[https://github.com/atomist/sdm-pack-analysis-dotnet](https://github.com/atomist/sdm-pack-analysis-dotnet)|
 |`@atomist/sdm-pack-analysis`|`1.1.0-master.20190526073852`|Atomist|[https://github.com/atomist/sdm-pack-analysis](https://github.com/atomist/sdm-pack-analysis)|
 |`@atomist/sdm-pack-build`|`1.0.4-master.20190320190156`|Atomist|[https://github.com/atomist/sdm-pack-build](https://github.com/atomist/sdm-pack-build)|
 |`@atomist/sdm-pack-docker`|`2.0.0-master.20190521194715`|Atomist|[https://github.com/atomist/sdm-pack-docker](https://github.com/atomist/sdm-pack-docker)|
