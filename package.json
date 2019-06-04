@@ -28,6 +28,10 @@
     "@atomist/automation-client": "1.5.3-master.20190531134751",
     "@atomist/sdm": "1.5.1-master.20190601211624",
     "@atomist/sdm-core": "1.5.1-master.20190530205517",
+    "@atomist/sdm-pack-analysis": "1.1.0-master.20190526073852",
+    "@atomist/sdm-pack-analysis-dotnet": "0.1.0-master.20190604152213",
+    "@atomist/sdm-pack-build": "1.0.4-master.20190320190156",
+    "@atomist/sdm-pack-docker": "2.0.0-master.20190521194715",
     "@atomist/slack-messages": "^1.1.0",
     "@types/boxen": "^3.0.1",
     "@types/chalk": "^2.2.0",
@@ -36,6 +40,7 @@
     "boxen": "^4.0.0",
     "chalk": "^2.4.2",
     "fs-extra": "^8.0.1",
+    "git-url-parse": "^11.1.2",
     "glob": "^7.1.4",
     "inquirer": "^6.3.1",
     "lodash": "^4.17.11"
