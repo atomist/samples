@@ -35,7 +35,7 @@ const InstructionsRegexp = new RegExp(/\* @instructions <p>([\s\S]*)<\/p>/, "gm"
 
 async function loadSdm(): Promise<Configuration> {
 
-    const samples = _.sortBy(glob.sync("**/*.ts", { nodir: true, ignore: ["node_modules/**", "test/**", "index.ts"] }).map(f => {
+    const samples = _.sortBy(glob.sync("**/*.ts", { nodir: true, ignore: ["**/*.d.ts", "node_modules/**", "test/**", "index.ts"] }).map(f => {
         const content = fs.readFileSync(f).toString();
         DescriptionRegexp.lastIndex = 0;
         InstructionsRegexp.lastIndex = 0;
