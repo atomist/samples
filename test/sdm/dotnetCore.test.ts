@@ -30,7 +30,7 @@ import {
     SoftwareDeliveryMachine,
     SoftwareDeliveryMachineConfiguration,
 } from "@atomist/sdm";
-import {SdmInstanceContainer} from "@atomist/sdm-core/lib/internal/machine/LocalSoftwareDeliveryMachineOptions";
+import { SdmInstanceContainer } from "@atomist/sdm-core/lib/internal/machine/LocalSoftwareDeliveryMachineOptions";
 import * as assert from "power-assert";
 import { configuration } from "../../lib/sdm/dotnetCore";
 
