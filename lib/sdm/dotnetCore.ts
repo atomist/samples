@@ -205,7 +205,7 @@ export const configuration = configure(async sdm => {
             ],
         },
     };
-});
+}, {name: "dotnetCore"});
 
 /**
  * Read the Docker hostname from the DOCKER_HOST environment variable
