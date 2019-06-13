@@ -27,7 +27,7 @@
   "dependencies": {
     "@atomist/automation-client": "1.5.3-master.20190531134751",
     "@atomist/sdm": "1.5.1-master.20190601211624",
-    "@atomist/sdm-core": "1.5.1-master.20190530205517",
+    "@atomist/sdm-core": "^1.5.3-add-sdm-instance-reference.20190613211317",
     "@atomist/sdm-pack-analysis": "1.1.0-master.20190526073852",
     "@atomist/sdm-pack-analysis-dotnet": "0.1.0-master.20190604193225",
     "@atomist/sdm-pack-build": "1.0.4-master.20190320190156",
