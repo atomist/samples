@@ -38,6 +38,7 @@
     "@types/chalk": "^2.2.0",
     "@types/inquirer": "^6.0.3",
     "@types/wordwrap": "^1.0.0",
+    "@types/xml2js": "^0.4.4",
     "boxen": "^4.0.0",
     "chalk": "^2.4.2",
     "fs-extra": "^8.0.1",
@@ -45,7 +46,8 @@
     "glob": "^7.1.4",
     "handlebars": "^4.1.2",
     "inquirer": "^6.3.1",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
