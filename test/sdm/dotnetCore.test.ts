@@ -59,15 +59,13 @@ describe(".NET Core SDM", () => {
         assert(goals.some(goal => goal.definition.displayName === "docker run"));
     });
 
-    // This test is actually wrong; an SDM goal with a preCondition to a goal that isn't planned
-    // will still be planned without that preCondition
-    it("should plan only two docker goals", async () => {
+    it("should not plan any goals", async () => {
         const testProject = InMemoryProject.of({ path: "Dockerfile", content: "" });
 
         const sdm = await getTestSdmInstance(require("../../lib/sdm/dotnetCore").configuration);
         const goals = await getGoalsForPushOnProject(sdm, fakePush(testProject));
 
-        assert(goals.length === 2);
+        assert.strictEqual(goals.length, 0);
     });
 });
 
