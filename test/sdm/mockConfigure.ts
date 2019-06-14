@@ -15,6 +15,7 @@
  */
 
 import {
+    Configuration,
     ConfigurationPostProcessor,
     Maker,
 } from "@atomist/automation-client";
@@ -23,7 +24,10 @@ import { HandleEvent } from "@atomist/automation-client/lib/HandleEvent";
 import {
     AbstractSoftwareDeliveryMachine,
     DefaultGoalImplementationMapper,
+    Goal,
     GoalSetter,
+    PushListenerInvocation,
+    SoftwareDeliveryMachine,
 } from "@atomist/sdm";
 import * as sdmCore from "@atomist/sdm-core";
 import { convertGoalData } from "@atomist/sdm-core/lib/machine/configure";
@@ -63,6 +67,19 @@ export function unmockConfigure(): void {
     mockery.disable();
 }
 
+export async function createSdm(index: string): Promise<SoftwareDeliveryMachine> {
+    const config = require(index).configuration
+    return (await config).sdm as SoftwareDeliveryMachine;
+}
+
+export async function planGoals(sdm: SoftwareDeliveryMachine, pli: PushListenerInvocation): Promise<Goal[]> {
+    const mappingGoals = await sdm.pushMapping.mapping(pli);
+    if (mappingGoals === undefined) {
+        return [];
+    }
+    return mappingGoals.goals;
+}
+
 class TestSoftwareDeliveryMachine extends AbstractSoftwareDeliveryMachine {
 
     public readonly commandHandlers: Array<Maker<HandleCommand>>;
@@ -71,7 +88,7 @@ class TestSoftwareDeliveryMachine extends AbstractSoftwareDeliveryMachine {
     public readonly ingesters: string[];
 
     constructor(name: string, ...goalSetters: Array<GoalSetter | GoalSetter[]>) {
-        super("name", {
+        super(name, {
             // Pass in just enough config for adding listeners not to blow up
             sdm: {} as any,
             listeners: undefined,

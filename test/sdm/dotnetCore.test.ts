@@ -14,19 +14,13 @@
  * limitations under the License.
  */
 
-import {
-    Configuration,
-    InMemoryProject,
-} from "@atomist/automation-client";
-import {
-    fakePush,
-    Goal,
-    PushListenerInvocation,
-    SoftwareDeliveryMachine,
-} from "@atomist/sdm";
+import { InMemoryProject } from "@atomist/automation-client";
+import { fakePush } from "@atomist/sdm";
 import * as assert from "assert";
 import {
+    createSdm,
     mockConfigure,
+    planGoals,
     unmockConfigure,
 } from "./mockConfigure";
 
@@ -38,8 +32,8 @@ describe(".NET Core SDM", () => {
     it("should plan version and build goals", async () => {
         const testProject = InMemoryProject.of({ path: "test.csproj", content: "" });
 
-        const sdm = await getTestSdmInstance(require("../../lib/sdm/dotnetCore").configuration);
-        const goals = await getGoalsForPushOnProject(sdm, fakePush(testProject));
+        const sdm = await createSdm("../../lib/sdm/dotnetCore");
+        const goals = await planGoals(sdm, fakePush(testProject));
 
         assert(goals.length === 2);
         assert(goals.some(goal => goal.definition.displayName === "version"));
@@ -49,8 +43,8 @@ describe(".NET Core SDM", () => {
     it("should plan version and build and docker goals", async () => {
         const testProject = InMemoryProject.of({ path: "test.csproj", content: "" }, { path: "Dockerfile", content: "" });
 
-        const sdm = await getTestSdmInstance(require("../../lib/sdm/dotnetCore").configuration);
-        const goals = await getGoalsForPushOnProject(sdm, fakePush(testProject));
+        const sdm = await createSdm("../../lib/sdm/dotnetCore");
+        const goals = await planGoals(sdm, fakePush(testProject));
 
         assert(goals.length === 4);
         assert(goals.some(goal => goal.definition.displayName === "version"));
@@ -62,21 +56,11 @@ describe(".NET Core SDM", () => {
     it("should not plan any goals", async () => {
         const testProject = InMemoryProject.of({ path: "Dockerfile", content: "" });
 
-        const sdm = await getTestSdmInstance(require("../../lib/sdm/dotnetCore").configuration);
-        const goals = await getGoalsForPushOnProject(sdm, fakePush(testProject));
+        const sdm = await createSdm("../../lib/sdm/dotnetCore");
+        const goals = await planGoals(sdm, fakePush(testProject));
 
         assert.strictEqual(goals.length, 0);
     });
 });
 
-async function getTestSdmInstance(config: Promise<Configuration>): Promise<SoftwareDeliveryMachine> {
-    return (await config).sdm as SoftwareDeliveryMachine;
-}
 
-async function getGoalsForPushOnProject(sdm: SoftwareDeliveryMachine, pli: PushListenerInvocation): Promise<Goal[]> {
-    const mappingGoals = await sdm.pushMapping.mapping(pli);
-    if (mappingGoals === undefined) {
-        return [];
-    }
-    return mappingGoals.goals;
-}
