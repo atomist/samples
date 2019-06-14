@@ -140,7 +140,6 @@ export const configuration = configure(async sdm => {
     const dockerRunGoal = goal(
         { displayName: "docker run" },
         async gi => {
-<<<<<<< HEAD
             const { sdmGoal, progressLog } = gi;
 
             const host = readDockerHost();
@@ -186,11 +185,6 @@ export const configuration = configure(async sdm => {
                     code: 1,
                 };
             }
-=======
-            const { goalEvent, progressLog } = gi;
-            const image = `${goalEvent.repo.owner}/${goalEvent.repo.name}:${goalEvent.branch}-${goalEvent.sha.slice(0, 7)}`;
-            return spawnLog("docker", ["run", "-d", "-p", "8080:8080", image], { log: progressLog });
->>>>>>> Delint
         });
 
     // This SDM has two PushRules: build and docker
@@ -200,10 +194,6 @@ export const configuration = configure(async sdm => {
             goals: [
                 versionGoal,
                 buildGoal,
-<<<<<<< HEAD
-=======
-
->>>>>>> Clean up testing support
             ],
         },
         docker: {
@@ -215,7 +205,6 @@ export const configuration = configure(async sdm => {
             ],
         },
     };
-<<<<<<< HEAD
 }, {name: "dotnetCore"});
 
 /**
@@ -228,6 +217,3 @@ function readDockerHost(): string | undefined {
     }
     return new URL(dockerhost).hostname;
 }
-=======
-}, { name: "dotnetCore" });
->>>>>>> Clean up testing support

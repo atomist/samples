@@ -16,10 +16,6 @@
 
 import {
     Configuration,
-<<<<<<< HEAD
-    GitHubRepoRef,
-=======
->>>>>>> Clean up testing support
     InMemoryProject,
 } from "@atomist/automation-client";
 import {
