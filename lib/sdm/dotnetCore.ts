@@ -109,22 +109,22 @@ export const configuration = configure(async sdm => {
         });
 
     // This SDM has two PushRules: build and docker
-return {
-    build: {
-        test: hasFileWithExtension("csproj"),
-        goals: [
-            versionGoal,
-            buildGoal,
+    return {
+        build: {
+            test: hasFileWithExtension("csproj"),
+            goals: [
+                versionGoal,
+                buildGoal,
 
-        ],
-    },
-    docker: {
-        test: HasDockerfile,
-        dependsOn: "build",
-        goals: [
-            dockerBuildGoal,
-            dockerRunGoal,
-        ],
-    },
-};
-}, {name: "dotnetCore"});
+            ],
+        },
+        docker: {
+            test: HasDockerfile,
+            dependsOn: "build",
+            goals: [
+                dockerBuildGoal,
+                dockerRunGoal,
+            ],
+        },
+    };
+}, { name: "dotnetCore" });
