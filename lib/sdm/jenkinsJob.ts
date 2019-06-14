@@ -81,7 +81,7 @@ export const configuration = configure(async () => {
             ],
         },
     };
-});
+}, { name: "jenkins" });
 
 /**
  * Load the job definition from a local XML template

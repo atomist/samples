@@ -18,8 +18,12 @@ import {
     ConfigurationPostProcessor,
     Maker,
 } from "@atomist/automation-client";
-import { HandleCommand } from "@atomist/automation-client/lib/HandleCommand";
+import {
+    HandleCommand,
+    SelfDescribingHandleCommand,
+} from "@atomist/automation-client/lib/HandleCommand";
 import { HandleEvent } from "@atomist/automation-client/lib/HandleEvent";
+import { toFactory } from "@atomist/automation-client/lib/util/constructionUtils";
 import {
     AbstractSoftwareDeliveryMachine,
     DefaultGoalImplementationMapper,
@@ -82,6 +86,16 @@ export async function planGoals(sdm: SoftwareDeliveryMachine, pli: PushListenerI
         return [];
     }
     return mappingGoals.goals;
+}
+
+export async function getCallableCommands(sdm: SoftwareDeliveryMachine): Promise<SelfDescribingHandleCommand[]> {
+    return sdm.commandHandlers.map(ch => toFactory(ch)())
+        .filter(isSelfDescribing)
+        .map(c => c as SelfDescribingHandleCommand);
+}
+
+function isSelfDescribing(command: HandleCommand): command is SelfDescribingHandleCommand {
+    return !!(command as any).intent;
 }
 
 class TestSoftwareDeliveryMachine extends AbstractSoftwareDeliveryMachine {
