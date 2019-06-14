@@ -18,21 +18,16 @@ import { InMemoryProject } from "@atomist/automation-client";
 import { fakePush } from "@atomist/sdm";
 import * as assert from "assert";
 import {
-    createSdm,
-    mockConfigure,
+    mockSdm,
     planGoals,
-    unmockConfigure,
 } from "./mockConfigure";
 
 describe(".NET Core SDM", () => {
 
-    beforeEach(mockConfigure);
-    afterEach(unmockConfigure);
-
     it("should plan version and build goals", async () => {
         const testProject = InMemoryProject.of({ path: "test.csproj", content: "" });
 
-        const sdm = await createSdm("../../lib/sdm/dotnetCore");
+        const sdm = await mockSdm("../../lib/sdm/dotnetCore");
         const goals = await planGoals(sdm, fakePush(testProject));
 
         assert(goals.length === 2);
@@ -43,7 +38,7 @@ describe(".NET Core SDM", () => {
     it("should plan version and build and docker goals", async () => {
         const testProject = InMemoryProject.of({ path: "test.csproj", content: "" }, { path: "Dockerfile", content: "" });
 
-        const sdm = await createSdm("../../lib/sdm/dotnetCore");
+        const sdm = await mockSdm("../../lib/sdm/dotnetCore");
         const goals = await planGoals(sdm, fakePush(testProject));
 
         assert(goals.length === 4);
@@ -56,7 +51,7 @@ describe(".NET Core SDM", () => {
     it("should not plan any goals", async () => {
         const testProject = InMemoryProject.of({ path: "Dockerfile", content: "" });
 
-        const sdm = await createSdm("../../lib/sdm/dotnetCore");
+        const sdm = await mockSdm("../../lib/sdm/dotnetCore");
         const goals = await planGoals(sdm, fakePush(testProject));
 
         assert.strictEqual(goals.length, 0);

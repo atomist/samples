@@ -15,7 +15,6 @@
  */
 
 import {
-    Configuration,
     ConfigurationPostProcessor,
     Maker,
 } from "@atomist/automation-client";
@@ -33,7 +32,7 @@ import * as sdmCore from "@atomist/sdm-core";
 import { convertGoalData } from "@atomist/sdm-core/lib/machine/configure";
 import * as mockery from "mockery";
 
-export function mockConfigure(): void {
+function mockConfigure(): void {
     mockery.enable();
     mockery.warnOnUnregistered(false);
     mockery.warnOnReplace(false);
@@ -62,14 +61,19 @@ export function mockConfigure(): void {
     mockery.registerMock("@atomist/sdm-core", mockSdmCore);
 }
 
-export function unmockConfigure(): void {
+function unmockConfigure(): void {
     mockery.deregisterAll();
     mockery.disable();
 }
 
-export async function createSdm(index: string): Promise<SoftwareDeliveryMachine> {
-    const config = require(index).configuration;
-    return (await config).sdm as SoftwareDeliveryMachine;
+export async function mockSdm(index: string): Promise<SoftwareDeliveryMachine> {
+    try {
+        mockConfigure();
+        const config = require(index).configuration;
+        return (await config).sdm as SoftwareDeliveryMachine;
+    } finally {
+        unmockConfigure();
+    }
 }
 
 export async function planGoals(sdm: SoftwareDeliveryMachine, pli: PushListenerInvocation): Promise<Goal[]> {
