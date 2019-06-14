@@ -68,7 +68,7 @@ export function unmockConfigure(): void {
 }
 
 export async function createSdm(index: string): Promise<SoftwareDeliveryMachine> {
-    const config = require(index).configuration
+    const config = require(index).configuration;
     return (await config).sdm as SoftwareDeliveryMachine;
 }
 

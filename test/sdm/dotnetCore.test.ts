@@ -62,5 +62,3 @@ describe(".NET Core SDM", () => {
         assert.strictEqual(goals.length, 0);
     });
 });
-
-
