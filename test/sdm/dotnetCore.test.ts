@@ -29,10 +29,9 @@ describe(".NET Core SDM", () => {
 
         const sdm = await mockSdm("../../lib/sdm/dotnetCore");
         const goals = await planGoals(sdm, fakePush(testProject));
-
-        assert(goals.length === 2);
-        assert(goals.some(goal => goal.definition.displayName === "version"));
-        assert(goals.some(goal => goal.definition.displayName === "dotnet build"));
+        const goalNames = goals.map(goal => goal.definition.displayName);
+        assert.strictEqual(goals.length, 2);
+        assert.deepStrictEqual(goalNames, ["version", "dotnet build"]);
     });
 
     it("should plan version and build and docker goals", async () => {
@@ -40,12 +39,10 @@ describe(".NET Core SDM", () => {
 
         const sdm = await mockSdm("../../lib/sdm/dotnetCore");
         const goals = await planGoals(sdm, fakePush(testProject));
+        const goalNames = goals.map(goal => goal.definition.displayName);
 
-        assert(goals.length === 4);
-        assert(goals.some(goal => goal.definition.displayName === "version"));
-        assert(goals.some(goal => goal.definition.displayName === "dotnet build"));
-        assert(goals.some(goal => goal.definition.displayName === "docker build"));
-        assert(goals.some(goal => goal.definition.displayName === "docker run"));
+        assert.strictEqual(goals.length, 4);
+        assert.deepStrictEqual(goalNames, ["version", "dotnet build", "docker build", "docker run"]);
     });
 
     it("should not plan any goals", async () => {
