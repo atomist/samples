@@ -15,11 +15,16 @@
  */
 
 import { GitHubRepoRef } from "@atomist/automation-client";
+import { scanFreePort } from "@atomist/automation-client/lib/util/port";
 import {
+    actionableButton,
+    CommandHandlerRegistration,
+    execPromise,
     GeneratorRegistration,
     goal,
     hasFileWithExtension,
-    spawnLog,
+    SdmGoalState,
+    slackSuccessMessage,
 } from "@atomist/sdm";
 import {
     configure,
@@ -37,6 +42,11 @@ import {
     DockerBuild,
     HasDockerfile,
 } from "@atomist/sdm-pack-docker";
+import {
+    bold,
+    codeLine,
+    url,
+} from "@atomist/slack-messages";
 import { replaceSeedSlug } from "../transform/replaceSeedSlug";
 import { UpdateReadmeTitle } from "../transform/updateReadmeTitle";
 
@@ -72,10 +82,32 @@ const DotnetCoreGenerator: GeneratorRegistration = {
 };
 // atomist:code-snippet:end
 
+/**
+ * Command to stop a container by provided container id
+ */
+const StopDockerContainerCommand: CommandHandlerRegistration<{ containerId: string }> = {
+    name: "StopDockerContainer",
+    description: "Stop a running Docker container",
+    intent: "stop container",
+    parameters: {
+        containerId: { description: "Id of the container to stop" },
+    },
+    listener: async ci => {
+        await execPromise("docker", ["stop", ci.parameters.containerId]);
+        await ci.addressChannels(
+            slackSuccessMessage(
+                "Docker Deployment",
+                `Successfully stopped deployment`),
+            { id: ci.parameters.containerId },
+        );
+    },
+};
+
 export const configuration = configure(async sdm => {
 
-    // Register the generator with the SDM
+    // Register the generator and stop command with the SDM
     sdm.addGeneratorCommand(DotnetCoreGenerator);
+    sdm.addCommand(StopDockerContainerCommand);
 
     // Version goal calculates a timestamped version for the build goal
     const versionGoal = new Version()
@@ -94,9 +126,14 @@ export const configuration = configure(async sdm => {
         .with({
             dockerfileFinder: getDockerfile, // where to find the Dockerfile
             push: false, // skip pushing the image to a remote repository; can be enabled by providing credentials
-            dockerImageNameCreator: async (p, sdmGoal) => [
-                { registry: p.id.owner, name: p.id.repo, tags: [`${sdmGoal.branch}-${sdmGoal.sha.slice(0, 7)}`, "latest"] },
-            ],
+            dockerImageNameCreator: async (p, sdmGoal) => [{
+                registry: p.id.owner,
+                name: p.id.repo,
+                tags: [
+                    `${sdmGoal.branch}-${sdmGoal.sha.slice(0, 7)}`,
+                    "latest",
+                ],
+            }],
         });
 
     // Docker run goal to start the application in a container
@@ -104,8 +141,50 @@ export const configuration = configure(async sdm => {
         { displayName: "docker run" },
         async gi => {
             const { sdmGoal, progressLog } = gi;
-            const image = `${sdmGoal.repo.owner}/${sdmGoal.repo.name}:${sdmGoal.branch}-${sdmGoal.sha.slice(0, 7)}`;
-            return spawnLog("docker", ["run", "-d", "-p", "8080:8080", image], { log: progressLog });
+
+            const host = readDockerHost();
+            const port = await scanFreePort(8000, 8100);
+            const appUrl = `http://${host}:${port}`;
+
+            const slug = `${sdmGoal.repo.owner}/${sdmGoal.repo.name}`;
+            const image = `${slug}:${sdmGoal.branch}-${sdmGoal.sha.slice(0, 7)}`;
+
+            try {
+                const result = await execPromise(
+                    "docker",
+                    ["run", "-d", "-p", `${port}:8080`, image],
+                );
+                const containerId = result.stdout.trim();
+                await gi.addressChannels(
+                    slackSuccessMessage(
+                        "Docker Deployment",
+                        `Successfully started ${codeLine(sdmGoal.sha.slice(0, 7))} of ${bold(slug)} at ${url(appUrl)}`,
+                        {
+                            actions: [
+                                actionableButton(
+                                    { text: "Stop" },
+                                    StopDockerContainerCommand,
+                                    {
+                                        containerId,
+                                    }),
+                            ],
+                        },
+                    ),
+                    { id: containerId });
+
+                return {
+                    state: SdmGoalState.success,
+                    externalUrls: [
+                        { label: "http", url: appUrl },
+                    ],
+                };
+
+            } catch (e) {
+                progressLog.write(`Container run command failed: %s`, e.message);
+                return {
+                    code: 1,
+                };
+            }
         });
 
     // This SDM has two PushRules: build and docker
@@ -115,7 +194,6 @@ export const configuration = configure(async sdm => {
             goals: [
                 versionGoal,
                 buildGoal,
-
             ],
         },
         docker: {
@@ -128,3 +206,14 @@ export const configuration = configure(async sdm => {
         },
     };
 });
+
+/**
+ * Read the Docker hostname from the DOCKER_HOST environment variable
+ */
+function readDockerHost(): string | undefined {
+    const dockerhost = process.env.DOCKER_HOST;
+    if (!dockerhost) {
+        throw new Error("DOCKER_HOST environment variable not set");
+    }
+    return new URL(dockerhost).hostname;
+}
