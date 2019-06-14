@@ -71,7 +71,7 @@ describe(".NET Core SDM", () => {
     });
 });
 
-async function getTestSdmInstance(config: Configuration): Promise<SoftwareDeliveryMachine> {
+async function getTestSdmInstance(config: Promise<Configuration>): Promise<SoftwareDeliveryMachine> {
     return (await config).sdm as SoftwareDeliveryMachine;
 }
 

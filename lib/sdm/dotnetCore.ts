@@ -103,8 +103,8 @@ export const configuration = configure(async sdm => {
     const dockerRunGoal = goal(
         { displayName: "docker run" },
         async gi => {
-            const { sdmGoal, progressLog } = gi;
-            const image = `${sdmGoal.repo.owner}/${sdmGoal.repo.name}:${sdmGoal.branch}-${sdmGoal.sha.slice(0, 7)}`;
+            const { goalEvent, progressLog } = gi;
+            const image = `${goalEvent.repo.owner}/${goalEvent.repo.name}:${goalEvent.branch}-${goalEvent.sha.slice(0, 7)}`;
             return spawnLog("docker", ["run", "-d", "-p", "8080:8080", image], { log: progressLog });
         });
 
