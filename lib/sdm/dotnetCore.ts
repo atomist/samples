@@ -18,11 +18,16 @@ import { GitHubRepoRef } from "@atomist/automation-client";
 import { scanFreePort } from "@atomist/automation-client/lib/util/port";
 import {
     actionableButton,
+    and,
     CommandHandlerRegistration,
+    DoNotSetAnyGoals,
     execPromise,
     GeneratorRegistration,
     goal,
+    hasFile,
     hasFileWithExtension,
+    not,
+    or,
     SdmGoalState,
     slackSuccessMessage,
 } from "@atomist/sdm";
@@ -140,14 +145,14 @@ export const configuration = configure(async sdm => {
     const dockerRunGoal = goal(
         { displayName: "docker run" },
         async gi => {
-            const { sdmGoal, progressLog } = gi;
+            const { goalEvent, progressLog } = gi;
 
             const host = readDockerHost();
             const port = await scanFreePort(8000, 8100);
             const appUrl = `http://${host}:${port}`;
 
-            const slug = `${sdmGoal.repo.owner}/${sdmGoal.repo.name}`;
-            const image = `${slug}:${sdmGoal.branch}-${sdmGoal.sha.slice(0, 7)}`;
+            const slug = `${goalEvent.repo.owner}/${goalEvent.repo.name}`;
+            const image = `${slug}:${goalEvent.branch}-${goalEvent.sha.slice(0, 7)}`;
 
             try {
                 const result = await execPromise(
@@ -158,7 +163,7 @@ export const configuration = configure(async sdm => {
                 await gi.addressChannels(
                     slackSuccessMessage(
                         "Docker Deployment",
-                        `Successfully started ${codeLine(sdmGoal.sha.slice(0, 7))} of ${bold(slug)} at ${url(appUrl)}`,
+                        `Successfully started ${codeLine(goalEvent.sha.slice(0, 7))} of ${bold(slug)} at ${url(appUrl)}`,
                         {
                             actions: [
                                 actionableButton(
@@ -187,10 +192,13 @@ export const configuration = configure(async sdm => {
             }
         });
 
-    // This SDM has two PushRules: build and docker
+    // This SDM has three PushRules: no goals, build and docker
     return {
+        no_goals: {
+            test: not(hasFileWithExtension("csproj")),
+            goals: DoNotSetAnyGoals.andLock(),
+        },
         build: {
-            test: hasFileWithExtension("csproj"),
             goals: [
                 versionGoal,
                 buildGoal,
@@ -205,7 +213,7 @@ export const configuration = configure(async sdm => {
             ],
         },
     };
-});
+}, { name: "dotnetCore" });
 
 /**
  * Read the Docker hostname from the DOCKER_HOST environment variable
