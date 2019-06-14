@@ -194,6 +194,10 @@ export const configuration = configure(async sdm => {
             goals: [
                 versionGoal,
                 buildGoal,
+<<<<<<< HEAD
+=======
+
+>>>>>>> Clean up testing support
             ],
         },
         docker: {
@@ -205,6 +209,7 @@ export const configuration = configure(async sdm => {
             ],
         },
     };
+<<<<<<< HEAD
 }, {name: "dotnetCore"});
 
 /**
@@ -217,3 +222,6 @@ function readDockerHost(): string | undefined {
     }
     return new URL(dockerhost).hostname;
 }
+=======
+}, { name: "dotnetCore" });
+>>>>>>> Clean up testing support
