@@ -22,6 +22,8 @@
  *               from chat or web-app by typing "@atomist hello".</p>
  */
 
+// tslint:disable:no-duplicate-imports
+
 // atomist:code-snippet:start=helloWorldCommand
 import { NoParameters } from "@atomist/automation-client";
 import { CommandListenerInvocation } from "@atomist/sdm";
@@ -44,7 +46,6 @@ export const helloWorldCommand: CommandHandlerRegistration = {
     },
 };
 // atomist:code-snippet:end
-
 
 import { configure } from "@atomist/sdm-core";
 /**
