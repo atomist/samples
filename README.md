@@ -24,6 +24,7 @@ Here is a list of all the samples in this repository:
 <!---atomist:sample=start--->
 |Name|Description|Tags|
 |----|-----------|----|
+|[`lib/command/helloWorld.ts`](lib/command/helloWorld.ts)|Demonstrates a "hello world" command handler|command|
 |[`lib/command/menu.ts`](lib/command/menu.ts)|Demonstrates using menus in chat|command, parameters|
 |[`lib/command/parameters.ts`](lib/command/parameters.ts)|Demonstrates a command handler with parameters|command, parameters|
 |[`lib/command/preferences.ts`](lib/command/preferences.ts)|Demonstrates a command handler that sets and deletes SDM preferences|command, preferences|
