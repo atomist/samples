@@ -34,7 +34,7 @@ const DescriptionRegexp = new RegExp(/\* @description (.*)/, "g");
 const InstructionsRegexp = new RegExp(/\* @instructions <p>([\s\S]*)<\/p>/, "gm");
 
 async function loadSdm(): Promise<Configuration> {
-    const allTypeScriptSourceFiles = glob.sync("**/*.ts", { nodir: true, ignore: ["**/*.d.ts", "node_modules/**", "test/**", "index.ts"] })
+    const allTypeScriptSourceFiles = glob.sync("**/*.ts", { nodir: true, ignore: ["**/*.d.ts", "node_modules/**", "test/**", "index.ts"] });
     const samples = _.sortBy(allTypeScriptSourceFiles.map(describeSdmSourceFile).filter(s => !!s), "name");
 
     const questions: inquirer.Question[] = [
@@ -85,9 +85,9 @@ class InstructionsPrintingAutomationEventListener extends AutomationEventListene
 }
 
 interface SdmSourceFile {
-    name: string,
-    description?: string,
-    instructions?: string
+    name: string;
+    description?: string;
+    instructions?: string;
 }
 
 function firstMatchContent(regex: RegExp, str: string): string | undefined {
