@@ -76,7 +76,7 @@ Please start an SDM sample by selecting one of the files in the menu below.`, { 
 
     // The sample SDM startup does not support cluster mode
     cfg.cluster.enabled = false;
-    
+
     return cfg;
 }
 
