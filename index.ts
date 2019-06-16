@@ -34,29 +34,8 @@ const DescriptionRegexp = new RegExp(/\* @description (.*)/, "g");
 const InstructionsRegexp = new RegExp(/\* @instructions <p>([\s\S]*)<\/p>/, "gm");
 
 async function loadSdm(): Promise<Configuration> {
-
-    const samples = _.sortBy(glob.sync("**/*.ts", { nodir: true, ignore: ["**/*.d.ts", "node_modules/**", "test/**", "index.ts"] }).map(f => {
-        const content = fs.readFileSync(f).toString();
-        DescriptionRegexp.lastIndex = 0;
-        InstructionsRegexp.lastIndex = 0;
-        const descriptionMatch = DescriptionRegexp.exec(content);
-
-        let instructions: string;
-        const instructionsMatch = InstructionsRegexp.exec(content);
-        if (!!instructionsMatch) {
-            instructions = instructionsMatch[1];
-        }
-
-        if (!!descriptionMatch) {
-            return {
-                name: f,
-                description: descriptionMatch[1],
-                instructions,
-            };
-        } else {
-            return undefined;
-        }
-    }).filter(s => !!s), "name");
+    const allTypeScriptSourceFiles = glob.sync("**/*.ts", { nodir: true, ignore: ["**/*.d.ts", "node_modules/**", "test/**", "index.ts"] });
+    const samples = _.sortBy(allTypeScriptSourceFiles.map(describeSdmSourceFile).filter(s => !!s), "name");
 
     const questions: inquirer.Question[] = [
         {
@@ -103,4 +82,33 @@ class InstructionsPrintingAutomationEventListener extends AutomationEventListene
         const url = `\n\nView source code for this SDM at:\n   https://github.com/atomist/samples/blob/master/${this.name}`;
         logger.info(`\n${boxen(chalk.yellow(text) + url, { padding: 1 })}`);
     }
+}
+
+interface SdmSourceFile {
+    name: string;
+    description?: string;
+    instructions?: string;
+}
+
+function firstMatchContent(regex: RegExp, str: string): string | undefined {
+    regex.lastIndex = 0;
+    const instructionsMatch = regex.exec(str);
+    if (!!instructionsMatch) {
+        return instructionsMatch[1];
+    }
+    return undefined;
+}
+
+function describeSdmSourceFile(relativePath: string): SdmSourceFile | undefined {
+    const content = fs.readFileSync(relativePath).toString();
+    const descriptionMatch = firstMatchContent(DescriptionRegexp, content);
+    if (!descriptionMatch) {
+        return undefined;
+    }
+
+    return {
+        name: relativePath,
+        description: descriptionMatch,
+        instructions: firstMatchContent(InstructionsRegexp, content),
+    };
 }
