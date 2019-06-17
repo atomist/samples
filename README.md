@@ -34,6 +34,7 @@ Here is a list of all the samples in this repository:
 |[`lib/goal/firstGoal.ts`](lib/goal/firstGoal.ts)|Demonstrates how to create a first custom goal|goal|
 |[`lib/sdm/dotnetCore.ts`](lib/sdm/dotnetCore.ts)|SDM to create and build .NET Core projects|dotnet-core, generator, sdm|
 |[`lib/sdm/jenkinsJob.ts`](lib/sdm/jenkinsJob.ts)|SDM to demonstrate how to run and converge Jenkins jobs|jenkins, maven, sdm|
+|[`lib/sdm/maven.ts`](lib/sdm/maven.ts)|SDM to create and build Maven projects|generator, maven, sdm|
 |[`lib/transform/addLicense.ts`](lib/transform/addLicense.ts)|Shows a code transform that adds a license ile into the repository|transform|
 <!---atomist:sample=end--->
 

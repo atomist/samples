@@ -15,9 +15,12 @@
  */
 
 import { InMemoryProject } from "@atomist/automation-client";
-import { fakePush } from "@atomist/sdm";
+import {
+    fakePush,
+} from "@atomist/sdm";
 import * as assert from "assert";
 import {
+    getCallableCommands,
     mockSdm,
     planGoals,
 } from "./mockConfigure";
@@ -52,5 +55,17 @@ describe(".NET Core SDM", () => {
         const goals = await planGoals(sdm, fakePush(testProject));
 
         assert.strictEqual(goals.length, 0);
+    });
+
+    it("should have a command to create a dotnet project", async () => {
+        const sdm = await mockSdm("../../lib/sdm/dotnetCore");
+        const commands = await getCallableCommands(sdm);
+        assert(!!commands.find(c => c.intent.includes("create dotnet-core project")));
+    });
+
+    it("should have a command to stop a docker container", async () => {
+        const sdm = await mockSdm("../../lib/sdm/dotnetCore");
+        const commands = await getCallableCommands(sdm);
+        assert(!!commands.find(c => c.intent.includes("stop container")));
     });
 });
