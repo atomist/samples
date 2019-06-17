@@ -49,7 +49,7 @@ import { UpdateReadmeTitle } from "../transform/updateReadmeTitle";
  * Atomist SDM Sample
  * @description SDM to create and build Maven projects
  * @tag sdm,generator,maven
- * @instructions <p>Now that the SDM is up and running, create a new .NET Core
+ * @instructions <p>Now that the SDM is up and running, create a new Maven
  *               project by running '@atomist create maven project' and
  *               observe how the SDM will build and dockerize the new project.
  *
