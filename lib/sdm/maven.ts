@@ -119,7 +119,7 @@ export const configuration = configure(async sdm => {
                 };
 
             } catch (e) {
-                progressLog.write(`Container run command failed: %s`, e.message);
+                progressLog.write(`Maven spring-boot:run command failed: %s`, e.message);
                 return {
                     code: 1,
                 };
