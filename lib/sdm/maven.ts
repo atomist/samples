@@ -17,17 +17,12 @@
 import { GitHubRepoRef } from "@atomist/automation-client";
 import { scanFreePort } from "@atomist/automation-client/lib/util/port";
 import {
-    actionableButton,
-    and,
-    CommandHandlerRegistration,
     DoNotSetAnyGoals,
     execPromise,
     GeneratorRegistration,
     goal,
     hasFile,
-    hasFileWithExtension,
     not,
-    or,
     SdmGoalState,
     slackSuccessMessage,
 } from "@atomist/sdm";
@@ -35,18 +30,7 @@ import {
     configure,
     Version,
 } from "@atomist/sdm-core";
-import {
-    dotnetCoreBuilder,
-    DotnetCoreProjectFileCodeTransform,
-    DotnetCoreProjectVersioner,
-    DotnetCoreVersionProjectListener,
-    getDockerfile,
-} from "@atomist/sdm-pack-analysis-dotnet";
 import { Build } from "@atomist/sdm-pack-build";
-import {
-    DockerBuild,
-    HasDockerfile,
-} from "@atomist/sdm-pack-docker";
 import {
     mavenBuilder,
     MavenProjectVersioner,
@@ -56,11 +40,9 @@ import {
     TransformMavenSpringBootSeedToCustomProject,
 } from "@atomist/sdm-pack-spring";
 import {
-    bold,
     codeLine,
     url,
 } from "@atomist/slack-messages";
-import { replaceSeedSlug } from "../transform/replaceSeedSlug";
 import { UpdateReadmeTitle } from "../transform/updateReadmeTitle";
 
 /**
