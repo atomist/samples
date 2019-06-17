@@ -33,30 +33,18 @@ import * as path from "path";
 const DescriptionRegexp = new RegExp(/\* @description (.*)/, "g");
 const InstructionsRegexp = new RegExp(/\* @instructions <p>([\s\S]*)<\/p>/, "gm");
 
+export const configuration = loadSdm();
+
 async function loadSdm(): Promise<Configuration> {
 
-    const samples = _.sortBy(glob.sync("**/*.ts", { nodir: true, ignore: ["**/*.d.ts", "node_modules/**", "test/**", "index.ts"] }).map(f => {
-        const content = fs.readFileSync(f).toString();
-        DescriptionRegexp.lastIndex = 0;
-        InstructionsRegexp.lastIndex = 0;
-        const descriptionMatch = DescriptionRegexp.exec(content);
-
-        let instructions: string;
-        const instructionsMatch = InstructionsRegexp.exec(content);
-        if (!!instructionsMatch) {
-            instructions = instructionsMatch[1];
-        }
-
-        if (!!descriptionMatch) {
-            return {
-                name: f,
-                description: descriptionMatch[1],
-                instructions,
-            };
-        } else {
-            return undefined;
-        }
-    }).filter(s => !!s), "name");
+    const allTypeScriptSourceFiles = glob.sync(
+        "**/*.ts",
+        {
+            nodir: true,
+            ignore: ["**/*.d.ts", "node_modules/**", "test/**", "index.ts"],
+        });
+    const samples = _.sortBy(allTypeScriptSourceFiles.map(describeSdmSourceFile)
+        .filter(s => !!s), "name");
 
     const questions: inquirer.Question[] = [
         {
@@ -73,6 +61,7 @@ async function loadSdm(): Promise<Configuration> {
 Please start an SDM sample by selecting one of the files in the menu below.`, { padding: 1 }));
     const answers = await inquirer.prompt(questions);
     const sdm = answers.sample;
+
     const cfg = require(path.join(__dirname, sdm.name.replace(".ts", ".js"))).configuration;
     if (!!answers.sample.instructions) {
         cfg.listeners = [
@@ -85,10 +74,11 @@ Please start an SDM sample by selecting one of the files in the menu below.`, { 
     const name = sdm.name.split("/").slice(1).join("/").replace(".ts", "");
     cfg.name = `@atomist/samples-${name.toLowerCase()}`;
 
+    // The sample SDM startup does not support cluster mode
+    cfg.cluster.enabled = false;
+
     return cfg;
 }
-
-export const configuration = loadSdm();
 
 class InstructionsPrintingAutomationEventListener extends AutomationEventListenerSupport {
 
@@ -103,4 +93,33 @@ class InstructionsPrintingAutomationEventListener extends AutomationEventListene
         const url = `\n\nView source code for this SDM at:\n   https://github.com/atomist/samples/blob/master/${this.name}`;
         logger.info(`\n${boxen(chalk.yellow(text) + url, { padding: 1 })}`);
     }
+}
+
+interface SdmSourceFile {
+    name: string;
+    description?: string;
+    instructions?: string;
+}
+
+function firstMatchContent(regex: RegExp, str: string): string | undefined {
+    regex.lastIndex = 0;
+    const instructionsMatch = regex.exec(str);
+    if (!!instructionsMatch) {
+        return instructionsMatch[1];
+    }
+    return undefined;
+}
+
+function describeSdmSourceFile(relativePath: string): SdmSourceFile | undefined {
+    const content = fs.readFileSync(relativePath).toString();
+    const descriptionMatch = firstMatchContent(DescriptionRegexp, content);
+    if (!descriptionMatch) {
+        return undefined;
+    }
+
+    return {
+        name: relativePath,
+        description: descriptionMatch,
+        instructions: firstMatchContent(InstructionsRegexp, content),
+    };
 }

@@ -24,6 +24,7 @@ Here is a list of all the samples in this repository:
 <!---atomist:sample=start--->
 |Name|Description|Tags|
 |----|-----------|----|
+|[`lib/command/helloWorld.ts`](lib/command/helloWorld.ts)|Demonstrates a "hello world" command handler|command|
 |[`lib/command/menu.ts`](lib/command/menu.ts)|Demonstrates using menus in chat|command, parameters|
 |[`lib/command/parameters.ts`](lib/command/parameters.ts)|Demonstrates a command handler with parameters|command, parameters|
 |[`lib/command/preferences.ts`](lib/command/preferences.ts)|Demonstrates a command handler that sets and deletes SDM preferences|command, preferences|
@@ -34,7 +35,7 @@ Here is a list of all the samples in this repository:
 |[`lib/sdm/dotnetCore.ts`](lib/sdm/dotnetCore.ts)|SDM to create and build .NET Core projects|dotnet-core, generator, sdm|
 |[`lib/sdm/jenkinsJob.ts`](lib/sdm/jenkinsJob.ts)|SDM to demonstrate how to run and converge Jenkins jobs|jenkins, maven, sdm|
 |[`lib/sdm/maven.ts`](lib/sdm/maven.ts)|SDM to create and build Maven projects|generator, maven, sdm|
-|[`lib/transform/addLicense.ts`](lib/transform/addLicense.ts)|Shows a code transform that adds a license ile into the repository|command, preferences|
+|[`lib/transform/addLicense.ts`](lib/transform/addLicense.ts)|Shows a code transform that adds a license ile into the repository|transform|
 <!---atomist:sample=end--->
 
 Refer to the following section on how to run any of those samples 
