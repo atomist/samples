@@ -51,11 +51,7 @@ import { UpdateReadmeTitle } from "../transform/updateReadmeTitle";
  * @tag sdm,generator,maven
  * @instructions <p>Now that the SDM is up and running, create a new Maven
  *               project by running '@atomist create maven project' and
- *               observe how the SDM will build and dockerize the new project.
- *
- *               The docker build and run goals require a locally accessible
- *               docker daemon. Please make sure to configure your terminal for
- *               docker access.</p>
+ *               observe how the SDM will build and run the new project.</p>
  */
 
 // atomist:code-snippet:start=mavenGenerator
@@ -131,7 +127,7 @@ export const configuration = configure(async sdm => {
         },
     );
 
-    // This SDM has three PushRules: no goals, build and docker
+    // This SDM has three PushRules: no goals, build and run
     return {
         no_goals: {
             test: not(hasFile("pom.xml")),
@@ -150,14 +146,3 @@ export const configuration = configure(async sdm => {
         },
     };
 }, { name: "maven" });
-
-/**
- * Read the Docker hostname from the DOCKER_HOST environment variable
- */
-function readDockerHost(): string | undefined {
-    const dockerhost = process.env.DOCKER_HOST;
-    if (!dockerhost) {
-        throw new Error("DOCKER_HOST environment variable not set");
-    }
-    return new URL(dockerhost).hostname;
-}
