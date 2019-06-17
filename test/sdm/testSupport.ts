@@ -69,7 +69,7 @@ export async function simulatePushWithChanges(project: GitProject, options: {
                 sha: preStatus.sha,
             },
         },
-        project: project as GitProject,
+        project: project,
         context: fakeContext(),
         addressChannels: AddressNoChannels,
         configuration: {},

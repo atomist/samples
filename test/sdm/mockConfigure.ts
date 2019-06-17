@@ -93,7 +93,7 @@ export async function planGoals(sdm: SoftwareDeliveryMachine, pli: PushListenerI
 export async function getCallableCommands(sdm: SoftwareDeliveryMachine): Promise<SelfDescribingHandleCommand[]> {
     return sdm.commandHandlers.map(ch => toFactory(ch)())
         .filter(isSelfDescribing)
-        .map(c => c as SelfDescribingHandleCommand);
+        .map(c => c);
 }
 
 function isSelfDescribing(command: HandleCommand): command is SelfDescribingHandleCommand {
