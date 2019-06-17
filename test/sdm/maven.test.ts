@@ -25,29 +25,18 @@ import {
 
 describe("Maven SDM", () => {
 
-    it("should plan version and build goals", async () => {
+    it("should plan build and run goals", async () => {
         const testProject = InMemoryProject.of({ path: "pom.xml", content: "" });
 
         const sdm = await mockSdm("../../lib/sdm/maven");
         const goals = await planGoals(sdm, fakePush(testProject));
         const goalNames = goals.map(goal => goal.definition.displayName);
         assert.strictEqual(goals.length, 2);
-        assert.deepStrictEqual(goalNames, ["version", "maven build"]);
-    });
-
-    it("should plan version and build and docker goals", async () => {
-        const testProject = InMemoryProject.of({ path: "pom.xml", content: "" }, { path: "Dockerfile", content: "" });
-
-        const sdm = await mockSdm("../../lib/sdm/maven");
-        const goals = await planGoals(sdm, fakePush(testProject));
-        const goalNames = goals.map(goal => goal.definition.displayName);
-
-        assert.strictEqual(goals.length, 4);
-        assert.deepStrictEqual(goalNames, ["version", "maven build", "docker build", "docker run"]);
+        assert.deepStrictEqual(goalNames, ["maven build", "maven spring boot run"]);
     });
 
     it("should not plan any goals", async () => {
-        const testProject = InMemoryProject.of({ path: "Dockerfile", content: "" });
+        const testProject = InMemoryProject.of({ path: "test.txt", content: "" });
 
         const sdm = await mockSdm("../../lib/sdm/maven");
         const goals = await planGoals(sdm, fakePush(testProject));
@@ -59,11 +48,5 @@ describe("Maven SDM", () => {
         const sdm = await mockSdm("../../lib/sdm/maven");
         const commands = await getCallableCommands(sdm);
         assert(!!commands.find(c => c.intent.includes("create maven project")));
-    });
-
-    it("should have a command to stop a docker container", async () => {
-        const sdm = await mockSdm("../../lib/sdm/maven");
-        const commands = await getCallableCommands(sdm);
-        assert(!!commands.find(c => c.intent.includes("stop container")));
     });
 });

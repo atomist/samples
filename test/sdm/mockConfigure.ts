@@ -27,6 +27,7 @@ import { toFactory } from "@atomist/automation-client/lib/util/constructionUtils
 import {
     AbstractSoftwareDeliveryMachine,
     DefaultGoalImplementationMapper,
+    FunctionalUnit,
     Goal,
     GoalSetter,
     PushListenerInvocation,
@@ -34,6 +35,7 @@ import {
 } from "@atomist/sdm";
 import * as sdmCore from "@atomist/sdm-core";
 import { convertGoalData } from "@atomist/sdm-core/lib/machine/configure";
+import * as _ from "lodash";
 import * as mockery from "mockery";
 
 function mockConfigure(): void {
@@ -100,10 +102,55 @@ function isSelfDescribing(command: HandleCommand): command is SelfDescribingHand
 
 class TestSoftwareDeliveryMachine extends AbstractSoftwareDeliveryMachine {
 
-    public readonly commandHandlers: Array<Maker<HandleCommand>>;
     public readonly eventHandlers: Array<Maker<HandleEvent<any>>>;
     public readonly goalFulfillmentMapper: DefaultGoalImplementationMapper;
     public readonly ingesters: string[];
+
+    private get goalSetting(): FunctionalUnit {
+        if (this.pushMapping) {
+            return {
+                eventHandlers: [],
+                commandHandlers: [],
+                ingesters: [],
+            };
+        } else {
+            return {
+                eventHandlers: [],
+                commandHandlers: [],
+                ingesters: [],
+            };
+        }
+    }
+
+    private get goalConsequences(): FunctionalUnit {
+        if (this.pushMapping) {
+            return {
+                eventHandlers: [],
+                commandHandlers: [],
+                ingesters: [],
+            };
+        } else {
+            return {
+                eventHandlers: [],
+                commandHandlers: [],
+                ingesters: [],
+            };
+        }
+    }
+
+    private get allFunctionalUnits(): FunctionalUnit[] {
+        return []
+            .concat([
+                this.goalSetting,
+                this.goalConsequences,
+            ]);
+    }
+
+    get commandHandlers(): Array<Maker<HandleCommand>> {
+        return this.registrationManager.commandHandlers
+            .concat(_.flatten(this.allFunctionalUnits.map(fu => fu.commandHandlers)))
+            .filter(m => !!m);
+    }
 
     constructor(name: string, ...goalSetters: Array<GoalSetter | GoalSetter[]>) {
         super(name, {

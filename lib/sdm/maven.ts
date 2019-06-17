@@ -78,13 +78,13 @@ import { UpdateReadmeTitle } from "../transform/updateReadmeTitle";
 
 // atomist:code-snippet:start=mavenGenerator
 /**
- * .NET Core generator registration
+ * Maven generator registration
  */
 const MavenGenerator: GeneratorRegistration<SpringProjectCreationParameters> = {
     name: "MavenGenerator",
     intent: "create maven project",
     description: "Creates a new Maven project",
-    tags: ["dotnet"],
+    tags: ["maven"],
     autoSubmit: true,
     parameters: SpringProjectCreationParameterDefinitions,
     startingPoint: GitHubRepoRef.from({ owner: "atomist-seeds", repo: "spring-rest", branch: "master" }),
@@ -95,38 +95,17 @@ const MavenGenerator: GeneratorRegistration<SpringProjectCreationParameters> = {
 };
 // atomist:code-snippet:end
 
-/**
- * Command to stop a container by provided container id
- */
-const StopDockerContainerCommand: CommandHandlerRegistration<{ containerId: string }> = {
-    name: "StopDockerContainer",
-    description: "Stop a running Docker container",
-    intent: "stop container",
-    parameters: {
-        containerId: { description: "Id of the container to stop" },
-    },
-    listener: async ci => {
-        await execPromise("docker", ["stop", ci.parameters.containerId]);
-        await ci.addressChannels(
-            slackSuccessMessage(
-                "Docker Deployment",
-                `Successfully stopped deployment`),
-            { id: ci.parameters.containerId },
-        );
-    },
-};
-
 export const configuration = configure(async sdm => {
 
     // Register the generator and stop command with the SDM
     sdm.addGeneratorCommand(MavenGenerator);
-    sdm.addCommand(StopDockerContainerCommand);
 
     // Version goal calculates a timestamped version for the build goal
     const versionGoal = new Version()
         .withVersioner(MavenProjectVersioner);
 
-    // Build goal that runs "dotnet build"
+    // Build goal that runs "maven package", after running "mvn version" which
+    // sets a unique version for the build
     const buildGoal = new Build(
         { displayName: "maven build" })
         .with({
@@ -134,56 +113,25 @@ export const configuration = configure(async sdm => {
             builder: mavenBuilder(),
         }).withProjectListener(MvnVersion);
 
-    // Docker build to wrap the app into a container image
-    const dockerBuildGoal = new DockerBuild()
-        .with({
-            dockerfileFinder: getDockerfile, // where to find the Dockerfile
-            push: false, // skip pushing the image to a remote repository; can be enabled by providing credentials
-            dockerImageNameCreator: async (p, sdmGoal) => [{
-                registry: p.id.owner,
-                name: p.id.repo,
-                tags: [
-                    `${sdmGoal.branch}-${sdmGoal.sha.slice(0, 7)}`,
-                    "latest",
-                ],
-            }],
-        });
-
-    // Docker run goal to start the application in a container
-    const dockerRunGoal = goal(
-        { displayName: "docker run" },
+    const mavenSpringBootRun = goal(
+        { displayName: "maven spring boot run" },
         async gi => {
             const { goalEvent, progressLog } = gi;
-
-            const host = readDockerHost();
             const port = await scanFreePort(8000, 8100);
-            const appUrl = `http://${host}:${port}`;
-
-            const slug = `${goalEvent.repo.owner}/${goalEvent.repo.name}`;
-            const image = `${slug}:${goalEvent.branch}-${goalEvent.sha.slice(0, 7)}`;
+            const appUrl = `http://localhost:${port}`;
 
             try {
                 const result = await execPromise(
-                    "docker",
-                    ["run", "-d", "-p", `${port}:8080`, image],
+                    "mvn",
+                    ["spring-boot:run", `-Dspring-boot.run.arguments=--server.port=${port}`],
                 );
-                const containerId = result.stdout.trim();
                 await gi.addressChannels(
                     slackSuccessMessage(
-                        "Docker Deployment",
-                        `Successfully started ${codeLine(goalEvent.sha.slice(0, 7))} of ${bold(slug)} at ${url(appUrl)}`,
-                        {
-                            actions: [
-                                actionableButton(
-                                    { text: "Stop" },
-                                    StopDockerContainerCommand,
-                                    {
-                                        containerId,
-                                    }),
-                            ],
-                        },
+                        "Maven Spring Boot Run",
+                        `Successfully started ${codeLine(goalEvent.sha.slice(0, 7))} at ${url(appUrl)}`,
+                        {},
                     ),
-                    { id: containerId });
+                    { });
 
                 return {
                     state: SdmGoalState.success,
@@ -198,7 +146,8 @@ export const configuration = configure(async sdm => {
                     code: 1,
                 };
             }
-        });
+        },
+    );
 
     // This SDM has three PushRules: no goals, build and docker
     return {
@@ -208,16 +157,13 @@ export const configuration = configure(async sdm => {
         },
         build: {
             goals: [
-                versionGoal,
                 buildGoal,
             ],
         },
-        docker: {
-            test: HasDockerfile,
+        run: {
             dependsOn: "build",
             goals: [
-                dockerBuildGoal,
-                dockerRunGoal,
+                mavenSpringBootRun,
             ],
         },
     };
