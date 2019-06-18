@@ -24,7 +24,7 @@ Here is a list of all the samples in this repository:
 <!---atomist:sample=start--->
 |Name|Description|Tags|
 |----|-----------|----|
-|[`lib/command/graphqlQuery.ts`](lib/command/graphqlQuery.ts)|Demonstrates executing a custom GraphQL query|command, parameters, graphql|
+|[`lib/command/graphqlQuery.ts`](lib/command/graphqlQuery.ts)|Demonstrates executing a custom GraphQL query|command, graphql, parameters|
 |[`lib/command/helloWorld.ts`](lib/command/helloWorld.ts)|Demonstrates a "hello world" command handler|command|
 |[`lib/command/menu.ts`](lib/command/menu.ts)|Demonstrates using menus in chat|command, parameters|
 |[`lib/command/parameters.ts`](lib/command/parameters.ts)|Demonstrates a command handler with parameters|command, parameters|
@@ -33,8 +33,9 @@ Here is a list of all the samples in this repository:
 |[`lib/generate/springBoot.ts`](lib/generate/springBoot.ts)|SDM to create a new Spring Boot project showing promptFor from generators|generator, sdm|
 |[`lib/goal/addLicenseAutofix.ts`](lib/goal/addLicenseAutofix.ts)|Shows how to use the Autofix goal|autofix, goal|
 |[`lib/goal/firstGoal.ts`](lib/goal/firstGoal.ts)|Demonstrates how to create a first custom goal|goal|
-|[`lib/goal/goalWithCustomFulfillment.ts`](lib/goal/goalWithBuiltInFulfillment.ts)|Demonstrates how to create a custom goal with a fulfillment that is configured inside the goal|goal|
+|[`lib/goal/goalWithBuiltInFulfillment.ts`](lib/goal/goalWithBuiltInFulfillment.ts)|Demonstrates how to create a custom goal with a fulfillment that is configured inside the goal|goal|
 |[`lib/goal/goalWithCustomFulfillment.ts`](lib/goal/goalWithCustomFulfillment.ts)|Demonstrates how to create a custom goal with a fulfillment that is configured outside the goal|goal|
+|[`lib/listener/projectListener.ts`](lib/listener/projectListener.ts)|Demonstrates how to create a goal that has a project listener|listener|
 |[`lib/sdm/dotnetCore.ts`](lib/sdm/dotnetCore.ts)|SDM to create and build .NET Core projects|dotnet-core, generator, sdm|
 |[`lib/sdm/jenkinsJob.ts`](lib/sdm/jenkinsJob.ts)|SDM to demonstrate how to run and converge Jenkins jobs|jenkins, maven, sdm|
 |[`lib/sdm/maven.ts`](lib/sdm/maven.ts)|SDM to create and build Maven projects|generator, maven, sdm|
