@@ -21,11 +21,11 @@ import * as assert from "assert";
 import {
     mockSdm,
     planGoals,
-} from "./mockConfigure";
+} from "../testsupport/mockConfigure";
 import {
     createTempGitProject,
     simulatePushWithChanges,
-} from "./testSupport";
+} from "../testsupport/testSupport";
 
 export async function createBaseGitProject(): Promise<GitProject> {
     const project = await createTempGitProject();

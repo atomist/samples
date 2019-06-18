@@ -23,7 +23,7 @@ import {
     getCallableCommands,
     mockSdm,
     planGoals,
-} from "./mockConfigure";
+} from "../testsupport/mockConfigure";
 
 describe(".NET Core SDM", () => {
 

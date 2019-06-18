@@ -1,0 +1,8 @@
+query BuildStatusBySha($sha: String!) {
+    Commit(sha: $sha) {
+        builds {
+            status
+            timestamp
+        }
+    }
+}
