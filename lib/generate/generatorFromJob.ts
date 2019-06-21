@@ -54,7 +54,7 @@ export const configuration = configure(async sdm => {
 
     sdm.addCommand({
         name: "RunGeneratorFromCommandViaJob",
-        description: "Runs the Spring Boot generator via a Job",
+        description: "Run the Spring Boot generator via a Job",
         intent: "create spring project",
         autoSubmit: true,
         parameters: {
