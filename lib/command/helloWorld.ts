@@ -29,7 +29,7 @@ import { NoParameters } from "@atomist/automation-client";
 import { CommandListenerInvocation } from "@atomist/sdm";
 
 export async function helloWorldListener(ci: CommandListenerInvocation<NoParameters>): Promise<void> {
-    return ci.addressChannels("Hello, world!");
+    return ci.addressChannels("Hello, world!!");
 }
 // atomist:code-snippet:end
 
@@ -41,7 +41,7 @@ export const helloWorldCommand: CommandHandlerRegistration = {
     description: "Responds with a friendly greeting to everyone",
     intent: "hello",
     listener: async ci => {
-        await ci.addressChannels("Hello, world!");
+        await ci.addressChannels("Hello, world!!");
         return { code: 0 };
     },
 };
