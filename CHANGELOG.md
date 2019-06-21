@@ -18,3 +18,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Add dotnet sdm sample. [2bf9fda](https://github.com/atomist/samples/commit/2bf9fda3a650338f9b08ae7537f9f5ffa6700dbe)
 -   Add Jenkins goal sample. [f788822](https://github.com/atomist/samples/commit/f7888228663856ac6fd1957acee70c53d4bcc302)
 -   Add new sample showing promptFor from generators. [62670e3](https://github.com/atomist/samples/commit/62670e3d2a759e0201e912cbe656e45075dfecbf)
+-   Add job sample. [ea43fcc](https://github.com/atomist/samples/commit/ea43fcc19b44f9161d29e17c560136252c443cf5)
