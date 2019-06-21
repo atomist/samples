@@ -86,7 +86,7 @@ const DeleteFactCommand: CommandHandlerRegistration = {
     intent: "delete fact",
     description: "Command to delete a fact from the SDM preferences",
     listener: async ci => {
-        const fact = await ci.preferences.delete("sample.fact", { scope: PreferenceScope.Sdm });
+        await ci.preferences.delete("sample.fact", { scope: PreferenceScope.Sdm });
         await ci.addressChannels(
             slackInfoMessage(
                 "Stored Fact",

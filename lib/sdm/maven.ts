@@ -26,14 +26,10 @@ import {
     SdmGoalState,
     slackSuccessMessage,
 } from "@atomist/sdm";
-import {
-    configure,
-    Version,
-} from "@atomist/sdm-core";
+import { configure } from "@atomist/sdm-core";
 import { Build } from "@atomist/sdm-pack-build";
 import {
     mavenBuilder,
-    MavenProjectVersioner,
     MvnVersion,
     SpringProjectCreationParameterDefinitions,
     SpringProjectCreationParameters,
@@ -78,10 +74,6 @@ export const configuration = configure(async sdm => {
     // Register the generator and stop command with the SDM
     sdm.addGeneratorCommand(MavenGenerator);
 
-    // Version goal calculates a timestamped version for the build goal
-    const versionGoal = new Version()
-        .withVersioner(MavenProjectVersioner);
-
     // Build goal that runs "maven package", after running "mvn version" which
     // sets a unique version for the build
     const buildGoal = new Build(
@@ -99,7 +91,7 @@ export const configuration = configure(async sdm => {
             const appUrl = `http://localhost:${port}`;
 
             try {
-                const result = await execPromise(
+                await execPromise(
                     "mvn",
                     ["spring-boot:run", `-Dspring-boot.run.arguments=--server.port=${port}`],
                 );
@@ -109,7 +101,7 @@ export const configuration = configure(async sdm => {
                         `Successfully started ${codeLine(goalEvent.sha.slice(0, 7))} at ${url(appUrl)}`,
                         {},
                     ),
-                    { });
+                    {});
 
                 return {
                     state: SdmGoalState.success,

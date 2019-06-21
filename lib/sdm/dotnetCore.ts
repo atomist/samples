@@ -18,16 +18,13 @@ import { GitHubRepoRef } from "@atomist/automation-client";
 import { scanFreePort } from "@atomist/automation-client/lib/util/port";
 import {
     actionableButton,
-    and,
     CommandHandlerRegistration,
     DoNotSetAnyGoals,
     execPromise,
     GeneratorRegistration,
     goal,
-    hasFile,
     hasFileWithExtension,
     not,
-    or,
     SdmGoalState,
     slackSuccessMessage,
 } from "@atomist/sdm";
