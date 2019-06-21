@@ -28,9 +28,6 @@
 import { NoParameters } from "@atomist/automation-client";
 import { CommandListenerInvocation } from "@atomist/sdm";
 
-
-
-
 export async function helloWorldListener(ci: CommandListenerInvocation<NoParameters>): Promise<void> {
     return ci.addressChannels("Hello, world!");
 }
