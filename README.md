@@ -4,7 +4,7 @@
 [![atomist sdm goals](https://badge.atomist.com/T29E48P34/atomist/samples/5f6a382b-a284-4918-9635-349c70d2a3b4)](https://app.atomist.com/workspace/T29E48P34)
 
 This repository is the home of very small sample Atomist Software
-Delivery Machines. 
+Delivery Machines.
 
 Each TypeScript file in `/lib` showcases a certain feature of the SDM
 framework and the Atomist platform.
@@ -34,35 +34,41 @@ Here is a list of all the samples in this repository:
 |[`lib/generate/springBoot.ts`](lib/generate/springBoot.ts)|SDM to create a new Spring Boot project showing promptFor from generators|generator, sdm|
 |[`lib/goal/addLicenseAutofix.ts`](lib/goal/addLicenseAutofix.ts)|Shows how to use the Autofix goal|autofix, goal|
 |[`lib/goal/firstGoal.ts`](lib/goal/firstGoal.ts)|Demonstrates how to create a first custom goal|goal|
+|[`lib/sdm/container/0goal.ts`](lib/sdm/container/0goal.ts)|SDM that uses containers to build projects.|container, sdm|
+|[`lib/sdm/container/1parallel.ts`](lib/sdm/container/1parallel.ts)|SDM that uses containers to build projects against multiple versions of Node.|container, node, sdm|
+|[`lib/sdm/container/2node-maven.ts`](lib/sdm/container/2node-maven.ts)|SDM that uses containers to build projects against multiple versions of Node and Maven.|container, maven, node, sdm|
+|[`lib/sdm/container/3cache.ts`](lib/sdm/container/3cache.ts)|SDM that uses containers to build Node.js project and their Docker images.|container, docker, kaniko, node, sdm|
+|[`lib/sdm/container/4callback.ts`](lib/sdm/container/4callback.ts)|SDM that uses containers with callback to set Docker image name.|callback, container, docker, kaniko, node, sdm|
+|[`lib/sdm/container/5volumes.ts`](lib/sdm/container/5volumes.ts)|SDM that uses containers with volumes to provide Docker credentials.|callback, container, docker, kaniko, node, sdm, volumes|
 |[`lib/sdm/dotnetCore.ts`](lib/sdm/dotnetCore.ts)|SDM to create and build .NET Core projects|dotnet-core, generator, sdm|
 |[`lib/sdm/jenkinsJob.ts`](lib/sdm/jenkinsJob.ts)|SDM to demonstrate how to run and converge Jenkins jobs|jenkins, maven, sdm|
 |[`lib/sdm/maven.ts`](lib/sdm/maven.ts)|SDM to create and build Maven projects|generator, maven, sdm|
 |[`lib/transform/addLicense.ts`](lib/transform/addLicense.ts)|Shows a code transform that adds a license ile into the repository|transform|
 <!---atomist:sample=end--->
 
-Refer to the following section on how to run any of those samples 
+Refer to the following section on how to run any of those samples
 from your own machine.
 
 ## Running
 
-### Prerequisites 
+### Prerequisites
 
 Before you can run any of the samples from this repository you need
-to install the Atomist CLI. Please follow [Developer Quick Start][atomist-quick] 
+to install the Atomist CLI. Please follow [Developer Quick Start][atomist-quick]
 to set up your environment.
 
 [atomist-quick]: https://docs.atomist.com/quick-start/ (Atomist - Developer Quick Start)
 
 ### Starting a Sample
 
-Once the Atomist CLI is installed, you run any of the examples by simply 
+Once the Atomist CLI is installed, you run any of the examples by simply
 typing the following into your terminal:
 
 ```
 $ atomist start --repository-url=https://github.com/atomist/samples.git
 ```
 
-This command will start a selection menu from which you can select one 
+This command will start a selection menu from which you can select one
 of the available samples to start.
 
 Alternatively you can also start a sample directly by running:
