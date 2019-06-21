@@ -27,7 +27,7 @@
   "dependencies": {
     "@atomist/automation-client": "1.5.4-master.20190619152732",
     "@atomist/sdm": "1.5.2-master.20190621132332",
-    "@atomist/sdm-core": "1.5.3-master.20190621124819",
+    "@atomist/sdm-core": "^1.5.3-container-goals-162.20190621195808",
     "@atomist/sdm-pack-analysis": "1.1.0-master.20190526073852",
     "@atomist/sdm-pack-analysis-dotnet": "0.1.0-master.20190604193225",
     "@atomist/sdm-pack-build": "1.0.4-master.20190320190156",
@@ -35,8 +35,6 @@
     "@atomist/sdm-pack-jenkins": "0.1.0-master.20190604195525",
     "@atomist/sdm-pack-spring": "^2.0.0-master.20190429120158",
     "@atomist/slack-messages": "^1.1.0",
-    "@types/boxen": "^3.0.1",
-    "@types/chalk": "^2.2.0",
     "@types/inquirer": "^6.0.3",
     "@types/wordwrap": "^1.0.0",
     "@types/xml2js": "^0.4.4",
