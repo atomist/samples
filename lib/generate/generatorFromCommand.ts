@@ -18,13 +18,13 @@ import { GitHubRepoRef } from "@atomist/automation-client";
 import { GeneratorRegistration } from "@atomist/sdm";
 import {
     configure,
-    createJob,
+    invokeCommand,
 } from "@atomist/sdm-core";
 
 /**
  * Atomist SDM Sample
- * @description SDM to create a new Spring Boot project showing how to invoke a generator from a job
- * @tag sdm,generator,job
+ * @description SDM to create a new Spring Boot project showing how to invoke a generator from a command
+ * @tag sdm,generator
  * @instructions <p>Now that the SDM is up and running, create a new Spring Boot
  *               project by running '@atomist create spring project'.</p>
  */
@@ -53,8 +53,8 @@ export const configuration = configure(async sdm => {
     sdm.addGeneratorCommand(SimpleGenerator);
 
     sdm.addCommand({
-        name: "RunGeneratorFromCommandViaJob",
-        description: "Run the Spring Boot generator via a job",
+        name: "RunGeneratorFromCommand",
+        description: "Run the Spring Boot generator",
         intent: "create spring project",
         autoSubmit: true,
         parameters: {
@@ -62,12 +62,10 @@ export const configuration = configure(async sdm => {
             "target.repo": {},
         },
         listener: async ci => {
-            await createJob({
-                    command: SimpleGenerator,
-                    parameters: {
-                        ...ci.parameters,
-                    },
-                    name: "SpringBootGenerator",
+            return invokeCommand(
+                SimpleGenerator,
+                {
+                    ...ci.parameters,
                 },
                 ci.context);
         },
