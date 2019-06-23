@@ -22,7 +22,7 @@ import {
 import { configure } from "@atomist/sdm-core";
 import {
     JenkinsRegistration,
-    jenkinsRun,
+    jenkins,
 } from "@atomist/sdm-pack-jenkins";
 import * as fs from "fs-extra";
 import * as hbx from "handlebars";
@@ -60,7 +60,7 @@ export const configuration = configure(async () => {
     // Jenkins goal that runs a job named <repo_name>-build which will be
     // created or updated with a job definition returned by the mavenPipeline
     // function
-    const build = jenkinsRun("build", {
+    const build = jenkins("build", {
         ...options,
         job: async gi => `${gi.goalEvent.repo.name}-build`,
         definition: async gi => mavenPipeline(gi),

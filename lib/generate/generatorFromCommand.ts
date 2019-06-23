@@ -58,14 +58,17 @@ export const configuration = configure(async sdm => {
         intent: "create spring project",
         autoSubmit: true,
         parameters: {
-            "target.owner": {},
-            "target.repo": {},
+            owner: {},
+            repo: {},
         },
         listener: async ci => {
             return invokeCommand(
                 SimpleGenerator,
                 {
-                    ...ci.parameters,
+                    target: {
+                        owner: ci.parameters.owner,
+                        repo: ci.parameters.repo,
+                    },
                 },
                 ci.context);
         },
