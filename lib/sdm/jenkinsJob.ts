@@ -21,8 +21,8 @@ import {
 } from "@atomist/sdm";
 import { configure } from "@atomist/sdm-core";
 import {
-    JenkinsRegistration,
     jenkins,
+    JenkinsRegistration,
 } from "@atomist/sdm-pack-jenkins";
 import * as fs from "fs-extra";
 import * as hbx from "handlebars";
