@@ -20,6 +20,7 @@ import {
     DoNotSetAnyGoals,
     execPromise,
     GeneratorRegistration,
+    Goal,
     goal,
     hasFile,
     not,
@@ -67,74 +68,88 @@ const MavenGenerator: GeneratorRegistration<SpringProjectCreationParameters> = {
         ...TransformMavenSpringBootSeedToCustomProject,
     ],
 };
+
 // atomist:code-snippet:end
 
-export const configuration = configure(async sdm => {
+interface MavenGoals {
 
-    // Register the generator and stop command with the SDM
-    sdm.addGeneratorCommand(MavenGenerator);
+    buildGoal: Build;
+    runGoal: Goal;
+}
 
-    // Build goal that runs "maven package", after running "mvn version" which
-    // sets a unique version for the build
-    const buildGoal = new Build(
-        { displayName: "maven build" })
-        .with({
-            name: "maven-build",
-            builder: mavenBuilder(),
-        }).withProjectListener(MvnVersion);
+export const configuration = configure<MavenGoals>({
+    goals: () => {
+        // Build goal that runs "maven package", after running "mvn version" which
+        // sets a unique version for the build
+        const buildGoal = new Build(
+            { displayName: "maven build" })
+            .with({
+                name: "maven-build",
+                builder: mavenBuilder(),
+            }).withProjectListener(MvnVersion);
 
-    const mavenSpringBootRun = goal(
-        { displayName: "maven spring boot run" },
-        async gi => {
-            const { goalEvent, progressLog } = gi;
-            const port = await scanFreePort(8000, 8100);
-            const appUrl = `http://localhost:${port}`;
+        const runGoal = goal(
+            { displayName: "maven spring boot run" },
+            async gi => {
+                const { goalEvent, progressLog } = gi;
+                const port = await scanFreePort(8000, 8100);
+                const appUrl = `http://localhost:${port}`;
 
-            try {
-                await execPromise(
-                    "mvn",
-                    ["spring-boot:run", `-Dspring-boot.run.arguments=--server.port=${port}`],
-                );
-                await gi.addressChannels(
-                    slackSuccessMessage(
-                        "Maven Spring Boot Run",
-                        `Successfully started ${codeLine(goalEvent.sha.slice(0, 7))} at ${url(appUrl)}`,
-                        {},
-                    ),
-                    {});
+                try {
+                    await execPromise(
+                        "mvn",
+                        ["spring-boot:run", `-Dspring-boot.run.arguments=--server.port=${port}`],
+                    );
+                    await gi.addressChannels(
+                        slackSuccessMessage(
+                            "Maven Spring Boot Run",
+                            `Successfully started ${codeLine(goalEvent.sha.slice(0, 7))} at ${url(appUrl)}`,
+                            {},
+                        ),
+                        {});
 
-                return {
-                    state: SdmGoalState.success,
-                    externalUrls: [
-                        { label: "http", url: appUrl },
-                    ],
-                };
+                    return {
+                        state: SdmGoalState.success,
+                        externalUrls: [
+                            { label: "http", url: appUrl },
+                        ],
+                    };
 
-            } catch (e) {
-                progressLog.write(`Maven spring-boot:run command failed: %s`, e.message);
-                return {
-                    code: 1,
-                };
-            }
-        },
-    );
+                } catch (e) {
+                    progressLog.write(`Maven spring-boot:run command failed: %s`, e.message);
+                    return {
+                        code: 1,
+                    };
+                }
+            },
+        );
 
-    // This SDM has three PushRules: no goals, build and run
-    return {
-        no_goals: {
-            test: not(hasFile("pom.xml")),
-            goals: DoNotSetAnyGoals.andLock(),
-        },
-        build: {
-            goals: [
-                buildGoal,
-            ],
-        },
-        run: {
-            dependsOn: "build",
-            goals: [
-                mavenSpringBootRun,
-            ],
-        },
-    };
+        return {
+            buildGoal,
+            runGoal,
+        };
+    }, sdm: async (sdm, goals) => {
+
+        // Register the generator and stop command with the SDM
+        sdm.addGeneratorCommand(MavenGenerator);
+
+        // This SDM has three PushRules: no goals, build and run
+        return {
+            no_goals: {
+                test: not(hasFile("pom.xml")),
+                goals: DoNotSetAnyGoals.andLock(),
+            },
+            build: {
+                goals: [
+                    goals.buildGoal,
+                ],
+            },
+            run: {
+                dependsOn: "build",
+                goals: [
+                    goals.runGoal,
+                ],
+            },
+        };
+    },
 }, { name: "maven" });
