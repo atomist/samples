@@ -55,7 +55,7 @@ export const configuration = configure(async sdm => {
                 slackInfoMessage(
                     "Token",
                     `We have the following token recorded for you:
-                    
+
 ${codeLine(stringify(ci.credentials, replacer))}`));
         },
     });
