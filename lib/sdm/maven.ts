@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-import { GitHubRepoRef } from "@atomist/automation-client";
+import {
+    GitHubRepoRef,
+} from "@atomist/automation-client";
 import { scanFreePort } from "@atomist/automation-client/lib/util/port";
 import {
     DoNotSetAnyGoals,
-    execPromise,
+    doWithProject,
     GeneratorRegistration,
     goal,
     hasFile,
     not,
     SdmGoalState,
     slackSuccessMessage,
+    spawnLog,
+    StringCapturingProgressLog,
 } from "@atomist/sdm";
 import { configure } from "@atomist/sdm-core";
 import { Build } from "@atomist/sdm-pack-build";
@@ -86,36 +90,43 @@ export const configuration = configure(async sdm => {
     const mavenSpringBootRun = goal(
         { displayName: "maven spring boot run" },
         async gi => {
-            const { goalEvent, progressLog } = gi;
-            const port = await scanFreePort(8000, 8100);
-            const appUrl = `http://localhost:${port}`;
+            return doWithProject(async pagi => {
+                const { goalEvent, progressLog } = gi;
+                const port = await scanFreePort(8000, 8100);
+                const appUrl = `http://localhost:${port}`;
 
-            try {
-                await execPromise(
-                    "mvn",
-                    ["spring-boot:run", `-Dspring-boot.run.arguments=--server.port=${port}`],
-                );
-                await gi.addressChannels(
-                    slackSuccessMessage(
-                        "Maven Spring Boot Run",
-                        `Successfully started ${codeLine(goalEvent.sha.slice(0, 7))} at ${url(appUrl)}`,
-                        {},
-                    ),
-                    {});
+                try {
+                    const log = new StringCapturingProgressLog();
+                    await spawnLog(
+                        "mvn",
+                        ["spring-boot:run", `-Dspring-boot.run.arguments=--server.port=${port}`],
+                        {
+                            cwd: pagi.project.baseDir,
+                            log,
+                        },
+                    );
+                    await gi.addressChannels(
+                        slackSuccessMessage(
+                            "Maven Spring Boot Run",
+                            `Successfully started ${codeLine(goalEvent.sha.slice(0, 7))} at ${url(appUrl)}`,
+                            {},
+                        ),
+                        {});
 
-                return {
-                    state: SdmGoalState.success,
-                    externalUrls: [
-                        { label: "http", url: appUrl },
-                    ],
-                };
+                    return {
+                        state: SdmGoalState.success,
+                        externalUrls: [
+                            { label: "http", url: appUrl },
+                        ],
+                    };
 
-            } catch (e) {
-                progressLog.write(`Maven spring-boot:run command failed: %s`, e.message);
-                return {
-                    code: 1,
-                };
-            }
+                } catch (e) {
+                    progressLog.write(`Maven spring-boot:run command failed: %s`, e.message);
+                    return {
+                        code: 1,
+                    };
+                }
+            })(gi);
         },
     );
 
