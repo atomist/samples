@@ -68,7 +68,7 @@ function securedCommand<T>(check: (ci: CommandListenerInvocation<T & UserIdParam
             ...UserIdParametersDefinition,
         },
         listener: async ci => {
-            if (await check(ci.parameters.userId)) {
+            if (await check(ci)) {
                 return cmd.listener(ci);
             } else {
                 return ci.addressChannels(
