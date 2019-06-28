@@ -61,4 +61,4 @@ export const configuration = configure(async () => {
             goals: autofix,
         },
     };
-});
+}, {name: "licenseautofix"});
