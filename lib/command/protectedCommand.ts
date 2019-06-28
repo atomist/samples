@@ -29,6 +29,7 @@
 import { MappedParameters } from "@atomist/automation-client";
 import {
     CommandHandlerRegistration,
+    CommandListenerInvocation,
     DeclarationType,
     ParametersDefinition,
     slackErrorMessage,
@@ -36,7 +37,10 @@ import {
 import { configure } from "@atomist/sdm-core";
 import { italic } from "@atomist/slack-messages";
 import * as os from "os";
-import { TokenCommand } from "./secrets";
+import {
+    CredentialsParameters,
+    TokenCommand,
+} from "./secrets";
 
 const AllowedUserName = process.env.ATOMIST_USER || os.userInfo().username;
 
@@ -48,7 +52,13 @@ export const UserIdParametersDefinition: ParametersDefinition<UserIdParameters> 
     userId: { uri: MappedParameters.SlackUserName, declarationType: DeclarationType.Mapped },
 };
 
-function securedCommand<T>(check: (userId: string) => Promise<boolean>,
+/**
+ * Wraps the provided command with an access control check
+ *
+ * This sample checks the userId against AllowedUserName, but the logic
+ * can be changed to check LDAP permissions or make other API calls.
+ */
+function securedCommand<T>(check: (ci: CommandListenerInvocation<T & UserIdParameters>) => Promise<boolean>,
                            cmd: CommandHandlerRegistration<T>): CommandHandlerRegistration<any> {
     return {
         name: `Secured${cmd.name}`,
@@ -78,6 +88,10 @@ function securedCommand<T>(check: (userId: string) => Promise<boolean>,
  */
 export const configuration = configure(async sdm => {
 
-    sdm.addCommand(securedCommand(async userId => userId === AllowedUserName, TokenCommand));
+    sdm.addCommand(
+        securedCommand<CredentialsParameters>(
+            async ci => ci.parameters.userId === AllowedUserName,
+            TokenCommand,
+        ));
 
 });

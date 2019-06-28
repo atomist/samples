@@ -38,6 +38,7 @@ import * as os from "os";
  *               the goal by setting the ATOMIST_USER environment variable.</p>
  */
 
+// The name of the user that should be allowed to approve the goal
 const AllowedUserName = process.env.ATOMIST_USER || os.userInfo().username;
 
 /**
@@ -45,6 +46,8 @@ const AllowedUserName = process.env.ATOMIST_USER || os.userInfo().username;
  */
 export const configuration = configure(async sdm => {
 
+    // Install the approval voter that simply checks the userId of
+    // the user requesting the approval against AllowedUserName
     sdm.addGoalApprovalRequestVoter(async garvi => {
         if (garvi.goal.preApproval.userId !== AllowedUserName) {
             return {
