@@ -35,10 +35,10 @@ import * as os from "os";
  *               the Message goal from chat or https://app.atomist.com.
  *
  *               Note: You can configure which user should be allowed to approve
- *               the goal by setting the ATOMIST_GOAL_APPROVER environment variable..</p>
+ *               the goal by setting the ATOMIST_USER environment variable.</p>
  */
 
-const AllowedUserName = process.env.ATOMIST_GOAL_APPROVER || os.userInfo().username;
+const AllowedUserName = process.env.ATOMIST_USER || os.userInfo().username;
 
 /**
  * Main entry point into the SDM

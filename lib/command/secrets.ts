@@ -25,6 +25,7 @@
 import { Secrets } from "@atomist/automation-client";
 import { replacer } from "@atomist/automation-client/lib/internal/util/string";
 import {
+    CommandHandlerRegistration,
     DeclarationType,
     ParametersDefinition,
     slackInfoMessage,
@@ -33,12 +34,26 @@ import { configure } from "@atomist/sdm-core";
 import { codeLine } from "@atomist/slack-messages";
 import * as stringify from "json-stringify-safe";
 
-interface CredentialsParameters {
+export interface CredentialsParameters {
     token: string;
 }
 
-const CredentialsParametersDefinition: ParametersDefinition<CredentialsParameters> = {
+export const CredentialsParametersDefinition: ParametersDefinition<CredentialsParameters> = {
     token: { uri: Secrets.userToken("repo"), declarationType: DeclarationType.Secret },
+};
+
+export const TokenCommand: CommandHandlerRegistration<CredentialsParameters> = {
+    name: "TokenCommand",
+    intent: "show token",
+    parameters: CredentialsParametersDefinition,
+    listener: async ci => {
+        await ci.addressChannels(
+            slackInfoMessage(
+                "Token",
+                `We have the following token recorded for you:
+
+${codeLine(stringify(ci.credentials, replacer))}`));
+    },
 };
 
 /**
@@ -46,18 +61,6 @@ const CredentialsParametersDefinition: ParametersDefinition<CredentialsParameter
  */
 export const configuration = configure(async sdm => {
 
-    sdm.addCommand({
-        name: "TokenCommand",
-        intent: "show token",
-        parameters: CredentialsParametersDefinition,
-        listener: async ci => {
-            await ci.addressChannels(
-                slackInfoMessage(
-                    "Token",
-                    `We have the following token recorded for you:
-
-${codeLine(stringify(ci.credentials, replacer))}`));
-        },
-    });
+    sdm.addCommand(TokenCommand);
 
 });
