@@ -29,6 +29,7 @@ Here is a list of all the samples in this repository:
 |[`lib/command/parameters.ts`](lib/command/parameters.ts)|Demonstrates a command handler with parameters|command, parameters|
 |[`lib/command/preferences.ts`](lib/command/preferences.ts)|Demonstrates a command handler that sets and deletes SDM preferences|command, preferences|
 |[`lib/command/promptFor.ts`](lib/command/promptFor.ts)|Demonstrates using promptFor to acquire parameters|command, parameters|
+|[`lib/command/protectedCommand.ts`](lib/command/protectedCommand.ts)|Demonstrates a command handler that is protected by a security check|command, parameters|
 |[`lib/command/secrets.ts`](lib/command/secrets.ts)|Demonstrates a command handler with secrets|command, parameters|
 |[`lib/generate/generatorFromCommand.ts`](lib/generate/generatorFromCommand.ts)|SDM to create a new Spring Boot project showing how to invoke a generator from a command|generator, sdm|
 |[`lib/generate/generatorFromJob.ts`](lib/generate/generatorFromJob.ts)|SDM to create a new Spring Boot project showing how to invoke a generator from a job|generator, job, sdm|
