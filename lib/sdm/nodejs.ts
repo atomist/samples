@@ -15,9 +15,7 @@
  */
 
 import {
-    EditMode,
     GitHubRepoRef,
-    NoParameters,
 } from "@atomist/automation-client";
 import { PullRequest } from "@atomist/automation-client/lib/operations/edit/editModes";
 import { scanFreePort } from "@atomist/automation-client/lib/util/port";
@@ -33,7 +31,6 @@ import {
     goal,
     hasFile,
     not,
-    or,
     SdmGoalState,
     slackSuccessMessage,
     ToDefaultBranch,
@@ -52,7 +49,6 @@ import {
     NodeProjectCreationParameters,
     NodeProjectCreationParametersDefinition,
     NodeProjectVersioner,
-    NpmCompileProjectListener,
     NpmInstallProjectListener,
     NpmVersionProjectListener,
     UpdatePackageJsonIdentification,

@@ -33,6 +33,7 @@
     "@atomist/sdm-pack-build": "1.0.4-master.20190320190156",
     "@atomist/sdm-pack-docker": "2.0.0-master.20190521194715",
     "@atomist/sdm-pack-jenkins": "0.1.0-master.20190623193923",
+    "@atomist/sdm-pack-node": "^1.1.1-master.20190616204043",
     "@atomist/sdm-pack-spring": "^2.0.0-master.20190429120158",
     "@atomist/slack-messages": "^1.1.0",
     "@types/inquirer": "^6.0.3",
