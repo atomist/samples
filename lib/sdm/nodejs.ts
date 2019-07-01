@@ -84,7 +84,7 @@ const TypescriptGenerator: GeneratorRegistration<NodeProjectCreationParameters> 
     tags: ["typescript"],
     autoSubmit: true,
     parameters: NodeProjectCreationParametersDefinition,
-    startingPoint: GitHubRepoRef.from({ owner: "lievendoclo", repo: "express-ts-example", branch: "master" }),
+    startingPoint: GitHubRepoRef.from({ owner: "atomist-seeds", repo: "typescript-express-node", branch: "master" }),
     transform: [
         UpdatePackageJsonIdentification,
     ],
@@ -123,7 +123,7 @@ RUN npm install
 RUN npm run compile
 # Configure
 EXPOSE 8080
-CMD [ "node", "index.js" ]`;
+CMD [ "npm", "run", "start" ]`;
         await p.addFile("Dockerfile", DockerfileContent);
     },
     transformPresentation: papi => new PullRequest(
