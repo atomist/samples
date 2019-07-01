@@ -47,7 +47,6 @@ Here is a list of all the samples in this repository:
 |[`lib/sdm/jenkinsJob.ts`](lib/sdm/jenkinsJob.ts)|SDM to demonstrate how to run and converge Jenkins jobs|jenkins, maven, sdm|
 |[`lib/sdm/maven.ts`](lib/sdm/maven.ts)|SDM to create and build Maven projects|generator, maven, sdm|
 |[`lib/sdm/nodejs.ts`](lib/sdm/nodejs.ts)|SDM to create and build NodeJS projects|generator, nodejs, sdm|
-|[`lib/sdm/nodejsRio.ts`](lib/sdm/nodejsRio.ts)|SDM to create and build NodeJS projects and deploy to Rio|generator, nodejs, sdm|
 |[`lib/transform/addLicense.ts`](lib/transform/addLicense.ts)|Shows a code transform that adds a license ile into the repository|transform|
 <!---atomist:sample=end--->
 
