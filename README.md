@@ -37,6 +37,7 @@ Here is a list of all the samples in this repository:
 |[`lib/goal/addLicenseAutofix.ts`](lib/goal/addLicenseAutofix.ts)|Shows how to use the Autofix goal|autofix, goal|
 |[`lib/goal/firstGoal.ts`](lib/goal/firstGoal.ts)|Demonstrates how to create a first custom goal|goal|
 |[`lib/sdm/approvalVote.ts`](lib/sdm/approvalVote.ts)|SDM to demonstrate custom goal approval voting|sdm, vote|
+|[`lib/sdm/cache.ts`](lib/sdm/cache.ts)|SDM that uses goal caching.|cache, node, sdm|
 |[`lib/sdm/container/0goal.ts`](lib/sdm/container/0goal.ts)|SDM that uses containers to build projects.|container, sdm|
 |[`lib/sdm/container/1parallel.ts`](lib/sdm/container/1parallel.ts)|SDM that uses containers to build projects against multiple versions of Node.|container, node, sdm|
 |[`lib/sdm/container/2node-maven.ts`](lib/sdm/container/2node-maven.ts)|SDM that uses containers to build projects against multiple versions of Node and Maven.|container, maven, node, sdm|
