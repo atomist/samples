@@ -52,7 +52,7 @@ function mockConfigure(): void {
 
             const sdm = new TestSoftwareDeliveryMachine(options.name || "Test SDM");
 
-            const configured = await configurer(sdm);
+            const configured = await configurer(sdm as any);
 
             if (Array.isArray(configured)) {
                 sdm.withPushRules(configured[0], ...configured.slice(1));

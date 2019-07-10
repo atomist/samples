@@ -15,11 +15,11 @@
  */
 
 import { GitHubRepoRef } from "@atomist/automation-client";
-import { GeneratorRegistration } from "@atomist/sdm";
 import {
-    configure,
     createJob,
-} from "@atomist/sdm-core";
+    GeneratorRegistration,
+} from "@atomist/sdm";
+import { configure } from "@atomist/sdm-core";
 
 /**
  * Atomist SDM Sample
@@ -63,12 +63,12 @@ export const configuration = configure(async sdm => {
         },
         listener: async ci => {
             await createJob({
-                    command: SimpleGenerator,
-                    parameters: {
-                        ...ci.parameters,
-                    },
-                    name: "SpringBootGenerator",
+                command: SimpleGenerator,
+                parameters: {
+                    ...ci.parameters,
                 },
+                name: "SpringBootGenerator",
+            },
                 ci.context);
         },
     });
