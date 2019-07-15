@@ -37,14 +37,14 @@ import {
     configure,
     container,
 } from "@atomist/sdm-core";
-import { PackageLockUrlRewriteAutofix } from "@atomist/sdm-pack-node";
+import { npmAuditAutofix } from "@atomist/sdm-pack-node";
 
 export const configuration = configure(async sdm => {
     return {
         node: {
             test: hasFile("package.json"),
             goals: [
-                new Autofix().with(PackageLockUrlRewriteAutofix),
+                new Autofix().with(npmAuditAutofix()),
                 container("node", {
                     containers: [{
                         args: ["sh", "-c", "npm install && npm test"],
