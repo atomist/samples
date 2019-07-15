@@ -44,6 +44,7 @@ Here is a list of all the samples in this repository:
 |[`lib/sdm/container/3cache.ts`](lib/sdm/container/3cache.ts)|SDM that uses containers to build Node.js project and their Docker images.|container, docker, kaniko, node, sdm|
 |[`lib/sdm/container/4callback.ts`](lib/sdm/container/4callback.ts)|SDM that uses containers with callback to set Docker image name.|callback, container, docker, kaniko, node, sdm|
 |[`lib/sdm/container/5volumes.ts`](lib/sdm/container/5volumes.ts)|SDM that uses containers with volumes to provide Docker credentials.|callback, container, docker, kaniko, node, sdm, volumes|
+|[`lib/sdm/container/6mix.ts`](lib/sdm/container/6mix.ts)|SDM that uses container and non-container goals.|container, sdm|
 |[`lib/sdm/dotnetCore.ts`](lib/sdm/dotnetCore.ts)|SDM to create and build .NET Core projects|dotnet-core, generator, sdm|
 |[`lib/sdm/jenkinsJob.ts`](lib/sdm/jenkinsJob.ts)|SDM to demonstrate how to run and converge Jenkins jobs|jenkins, maven, sdm|
 |[`lib/sdm/maven.ts`](lib/sdm/maven.ts)|SDM to create and build Maven projects|generator, maven, sdm|
