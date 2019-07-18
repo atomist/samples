@@ -30,53 +30,58 @@ export const configuration = configure(async sdm => {
     store: new CompressingGoalCache(),
   };
 
+  const buildJar = container("build-jar", {
+    containers: [
+      {
+        image: "maven:3.3-jdk-8",
+        command: ["mvn"],
+        args: ["clean", "install", "-B"],
+        name: "maven",
+      },
+    ],
+    output: [
+      {
+        classifier: "target-jar",
+        pattern: { directory: "target/*.jar" },
+      },
+    ],
+  });
+
+  const buildImage = container("kaniko", {
+    callback: async (reg, proj) => {
+      // calculate image name from project information, removing non-alphanumeric characters
+      const safeOwner = proj.id.owner.replace(/[^a-z0-9]+/g, "");
+      const dest = `${safeOwner}/${proj.id.repo}:${proj.id.sha}`;
+      reg.containers[0].args.push(`--destination=${dest}`);
+      return reg;
+    },
+    input: ["target-jar"],
+    containers: [{
+      name: "kaniko",
+      image: "gcr.io/kaniko-project/executor:v0.10.0",
+      args: [
+          "--dockerfile=Dockerfile",
+          "--context=dir://atm/home",
+          "--no-push",
+          "--single-snapshot",
+      ],
+    }],
+  });
+
   return {
     jvm: {
       goals: [
-        container("build-jar", {
-          containers: [
-            {
-              image: "maven:3.3-jdk-8",
-              command: ["mvn"],
-              args: ["clean", "install", "-B"],
-              name: "maven",
-            },
-          ],
-          output: [
-            {
-              classifier: "target-jar",
-              pattern: { directory: "target/*.jar" },
-            },
-          ],
-        }),
+        buildJar,
       ],
       test: hasFile("pom.xml"),
     },
     docker: {
       goals: [
-        container("kaniko", {
-          callback: async (reg, proj) => {
-            // calculate image name from project information, removing non-alphanumeric characters
-            const safeOwner = proj.id.owner.replace(/[^a-z0-9]+/g, "");
-            const dest = `${safeOwner}/${proj.id.repo}:${proj.id.sha}`;
-            reg.containers[0].args.push(`--destination=${dest}`);
-            return reg;
-          },
-          input: ["target-jar"],
-          containers: [{
-            name: "kaniko",
-            image: "gcr.io/kaniko-project/executor:v0.10.0",
-            args: [
-                "--dockerfile=Dockerfile",
-                "--context=dir://atm/home",
-                "--no-push",
-                "--single-snapshot",
-            ],
-          }],
-        }),
+        buildImage,
       ],
-      test: hasFile("Dockerfile"),
+      test: [hasFile("pom.xml"), hasFile("Dockerfile")],
       dependsOn: ["jvm"],
     },
   };
-});
+
+}, { name: "jarContainerGoal" });
