@@ -36,6 +36,7 @@ Here is a list of all the samples in this repository:
 |[`lib/generate/springBoot.ts`](lib/generate/springBoot.ts)|SDM to create a new Spring Boot project showing promptFor from generators|generator, sdm|
 |[`lib/goal/addLicenseAutofix.ts`](lib/goal/addLicenseAutofix.ts)|Shows how to use the Autofix goal|autofix, goal|
 |[`lib/goal/firstGoal.ts`](lib/goal/firstGoal.ts)|Demonstrates how to create a first custom goal|goal|
+|[`lib/goal/jarContainerGoal.ts`](lib/goal/jarContainerGoal.ts)|Demonstrates how to build a JAR file and incorporate it into a Docker image by using container goals|goal|
 |[`lib/sdm/approvalVote.ts`](lib/sdm/approvalVote.ts)|SDM to demonstrate custom goal approval voting|sdm, vote|
 |[`lib/sdm/cache.ts`](lib/sdm/cache.ts)|SDM that uses goal caching.|cache, node, sdm|
 |[`lib/sdm/container/0goal.ts`](lib/sdm/container/0goal.ts)|SDM that uses containers to build projects.|container, sdm|
