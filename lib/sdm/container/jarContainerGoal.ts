@@ -17,9 +17,9 @@
 // atomist:code-snippet:start=completeSample
 import { hasFile } from "@atomist/sdm";
 import {
-  CompressingGoalCache,
-  configure,
-  container,
+    CompressingGoalCache,
+    configure,
+    container,
 } from "@atomist/sdm-core";
 import * as os from "os";
 import * as path from "path";
