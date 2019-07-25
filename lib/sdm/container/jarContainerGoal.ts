@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
+// atomist:code-snippet:start=completeSample
 import { hasFile } from "@atomist/sdm";
 import {
-    CompressingGoalCache,
-    configure,
-    container,
+  CompressingGoalCache,
+  configure,
+  container,
 } from "@atomist/sdm-core";
 import * as os from "os";
 import * as path from "path";
@@ -60,10 +61,10 @@ export const configuration = configure(async sdm => {
       name: "kaniko",
       image: "gcr.io/kaniko-project/executor:v0.10.0",
       args: [
-          "--dockerfile=Dockerfile",
-          "--context=dir://atm/home",
-          "--no-push",
-          "--single-snapshot",
+        "--dockerfile=Dockerfile",
+        "--context=dir://atm/home",
+        "--no-push",
+        "--single-snapshot",
       ],
     }],
   });
@@ -85,3 +86,4 @@ export const configuration = configure(async sdm => {
   };
 
 }, { name: "jarContainerGoal" });
+// atomist:code-snippet:end
