@@ -62,8 +62,8 @@ export const configuration = configure(async () => {
     // function
     const build = jenkins("build", {
         ...options,
-        job: async gi => `${gi.goalEvent.repo.name}-build`,
-        definition: async gi => mavenPipeline(gi),
+        job: async gi => process.env.JENKINS_JOB || `${gi.goalEvent.repo.name}-build`,
+        definition: !process.env.JENKINS_JOB ? async gi => mavenPipeline(gi) : undefined,
     });
 
     // Single push rule that runs the build goal when the push is material and the project
