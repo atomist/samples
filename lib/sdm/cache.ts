@@ -84,3 +84,4 @@ export const configuration = configure(async sdm => {
         },
     };
 });
+// atomist:code-snippet:end
