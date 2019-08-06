@@ -25,9 +25,9 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "dependencies": {
-    "@atomist/automation-client": "^1.6.1",
-    "@atomist/sdm": "^1.6.0",
-    "@atomist/sdm-core": "^1.6.0",
+    "@atomist/automation-client": "^1.6.2",
+    "@atomist/sdm": "^1.6.1",
+    "@atomist/sdm-core": "^1.6.1",
     "@atomist/sdm-pack-analysis": "1.1.0-master.20190526073852",
     "@atomist/sdm-pack-analysis-dotnet": "0.1.0-master.20190604193225",
     "@atomist/sdm-pack-build": "1.0.4-master.20190320190156",
