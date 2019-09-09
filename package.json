@@ -25,9 +25,9 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "dependencies": {
-    "@atomist/automation-client": "^1.6.2",
-    "@atomist/sdm": "^1.6.1",
-    "@atomist/sdm-core": "^1.6.1",
+    "@atomist/automation-client": "^1.7.0",
+    "@atomist/sdm": "^1.7.0",
+    "@atomist/sdm-core": "^1.7.0",
     "@atomist/sdm-pack-analysis": "1.1.0-master.20190526073852",
     "@atomist/sdm-pack-analysis-dotnet": "0.1.0-master.20190604193225",
     "@atomist/sdm-pack-build": "1.0.4-master.20190320190156",
@@ -63,10 +63,10 @@
     "power-assert": "^1.6.1",
     "rimraf": "^2.6.3",
     "supervisor": "^0.12.0",
-    "ts-node": "^8.2.0",
-    "tslint": "^5.16.0",
-    "typedoc": "^0.14.2",
-    "typescript": "^3.5.1"
+    "ts-node": "^8.3.0",
+    "tslint": "^5.19.0",
+    "typedoc": "^0.15.0",
+    "typescript": "^3.6.2"
   },
   "directories": {
     "test": "test"
