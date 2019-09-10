@@ -37,7 +37,7 @@
     "@atomist/sdm-pack-jenkins": "0.1.0-master.20190623193923",
     "@atomist/sdm-pack-k8s": "^1.10.0",
     "@atomist/sdm-pack-node": "^1.1.1",
-    "@atomist/sdm-pack-spring": "2.0.1-graphql-code-generator-1.20190903074650",
+    "@atomist/sdm-pack-spring": "^2.0.1",
     "@atomist/slack-messages": "^1.1.1",
     "@octokit/plugin-throttling": "^2.6.0",
     "@octokit/rest": "^16.28.7",
