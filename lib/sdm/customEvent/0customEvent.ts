@@ -28,5 +28,7 @@ import { configure } from "@atomist/sdm-core";
  */
 
 export const configuration = configure(async sdm => {
+// atomist:code-snippet:start=AddIngester
     sdm.addIngester(GraphQL.ingester({ name: "SampleEvent" }));
+// atomist:code-snippet:end
 }, { name: "customEvent" });
