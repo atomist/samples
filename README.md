@@ -46,11 +46,11 @@ Here is a list of all the samples in this repository:
 |[`lib/sdm/container/4callback.ts`](lib/sdm/container/4callback.ts)|SDM that uses containers with callback to set Docker image name.|callback, container, docker, kaniko, node, sdm|
 |[`lib/sdm/container/5volumes.ts`](lib/sdm/container/5volumes.ts)|SDM that uses containers with volumes to provide Docker credentials.|callback, container, docker, kaniko, node, sdm, volumes|
 |[`lib/sdm/container/6mix.ts`](lib/sdm/container/6mix.ts)|SDM that uses container and non-container goals.|container, sdm|
+|[`lib/sdm/customEvent/0customEvent.ts`](lib/sdm/customEvent/0customEvent.ts)|SDM to add a custom event type and send data via curl or webhook|custom-event, event-handler, sdm|
+|[`lib/sdm/customEvent/1customEvent.ts`](lib/sdm/customEvent/1customEvent.ts)|SDM to add a custom event type and send data via mutation|custom-event, event-handler, sdm|
 |[`lib/sdm/dotnetCore.ts`](lib/sdm/dotnetCore.ts)|SDM to create and build .NET Core projects|dotnet-core, generator, sdm|
 |[`lib/sdm/jenkinsJob.ts`](lib/sdm/jenkinsJob.ts)|SDM to demonstrate how to run and converge Jenkins jobs|jenkins, maven, sdm|
 |[`lib/sdm/maven.ts`](lib/sdm/maven.ts)|SDM to create and build Maven projects|generator, maven, sdm|
-|[`lib/sdm/customEvent/0customEvent.ts`](lib/sdm/customEvent/0customEvent.ts)|SDM that defines custom event types in GraphQL|custom-event, sdm|
-|[`lib/sdm/customEvent/1customEvent.ts`](lib/sdm/customEvent/1customEvent.ts)|SDM that defines custom event types and sends data via GraphQL mutation|custom-event, sdm|
 |[`lib/transform/addLicense.ts`](lib/transform/addLicense.ts)|Shows a code transform that adds a license ile into the repository|transform|
 <!---atomist:sample=end--->
 
