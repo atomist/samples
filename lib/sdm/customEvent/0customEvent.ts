@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import {GraphQL} from "@atomist/automation-client";
-import {configure} from "@atomist/sdm-core";
+import { GraphQL } from "@atomist/automation-client";
+import { configure } from "@atomist/sdm-core";
 
 /**
  * Atomist SDM Sample

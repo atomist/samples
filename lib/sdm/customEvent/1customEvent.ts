@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
-import {GraphQL, Success} from "@atomist/automation-client";
-import {configure} from "@atomist/sdm-core";
-import {AddSampleEventMutation, AddSampleEventMutationVariables} from "../../typings/types";
+import {
+    GraphQL,
+    Success,
+} from "@atomist/automation-client";
+import { configure } from "@atomist/sdm-core";
+import {
+    AddSampleEventMutation,
+    AddSampleEventMutationVariables,
+} from "../../typings/types";
 
 /**
  * Atomist SDM Sample
