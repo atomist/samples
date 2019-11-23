@@ -36,6 +36,7 @@ import {
 
 export const configuration = configure(async sdm => {
     sdm.addIngester(GraphQL.ingester({ name: "SampleEvent" }));
+    // atomist:code-snippet:start=CreateEventByMutation
     sdm.addCommand({
         name: "create-sample-event",
         intent: "create sample event",
@@ -55,4 +56,5 @@ export const configuration = configure(async sdm => {
             return Success;
         },
     });
+    // atomist:code-snippet:end
 }, { name: "customEvent-mutation" });
